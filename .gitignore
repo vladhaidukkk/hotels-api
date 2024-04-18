@@ -6,3 +6,5 @@
 .venv/
 env/
 venv/
+
+*.egg-info/
