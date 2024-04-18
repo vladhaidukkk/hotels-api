@@ -3,3 +3,6 @@ lock:
 
 sync:
 	@pip-sync requirements.txt
+
+run-dev:
+	@uvicorn app.main:app --port 8000 --reload
