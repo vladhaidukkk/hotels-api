@@ -23,8 +23,10 @@ async def get_second_arg():
 @app.get("/")
 async def index():
     start = time.perf_counter()
-    first_arg = await get_first_arg()
-    second_arg = await get_second_arg()
+    first_arg_task = asyncio.create_task(get_first_arg())
+    second_arg_task = asyncio.create_task(get_second_arg())
+    first_arg = await first_arg_task
+    second_arg = await second_arg_task
     elapsed = time.perf_counter() - start
     print(f"Execution time: {elapsed:0.2f}")
     return {"first_arg": first_arg, "second_arg": second_arg}
