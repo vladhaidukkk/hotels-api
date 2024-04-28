@@ -1,7 +1,8 @@
+from dataclasses import dataclass
 from datetime import date
 from typing import Annotated
 
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Depends
 from pydantic import BaseModel, Field
 
 app = FastAPI()
@@ -21,18 +22,21 @@ hotels = [
 ]
 
 
+@dataclass
+class GetHotelsParams:
+    location: str
+    date_from: date
+    date_to: date
+    stars: Annotated[int | None, Query(ge=1, le=5)] = None
+
+
 @app.get("/hotels")
-def get_hotels(
-        location: str,
-        date_from: date,
-        date_to: date,
-        stars: Annotated[int | None, Query(ge=1, le=5)] = None,
-) -> list[Hotel]:
+def get_hotels(params: Annotated[GetHotelsParams, Depends()]) -> list[Hotel]:
     result = []
     for hotel in hotels:
-        if stars and stars != hotel.stars:
+        if params.stars and params.stars != hotel.stars:
             continue
-        if location not in hotel.city and location not in hotel.address:
+        if params.location not in hotel.city and params.location not in hotel.address:
             continue
         result.append(hotel)
     return result
