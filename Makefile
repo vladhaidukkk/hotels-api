@@ -17,3 +17,4 @@ fmt:
 
 lint:
 	@flake8 app
+	@autoflake -r app
