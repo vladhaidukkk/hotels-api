@@ -20,16 +20,22 @@ class Hotel(BaseModel):
 hotels = [
     Hotel(name="Seaside Escape", city="Oceanview", address="123 Coastal Rd", stars=4),
     Hotel(name="Mountain Retreat", city="Highpeak", address="456 Alpine St", stars=5),
-    Hotel(name="Urban Hotel Central", city="Metrocity", address="789 Main Blvd", stars=3)
+    Hotel(
+        name="Urban Hotel Central", city="Metrocity", address="789 Main Blvd", stars=3
+    ),
 ]
 
 
-def create_custom_error(error_type: LiteralString, message: LiteralString) -> PydanticCustomError:
+def create_custom_error(
+    error_type: LiteralString, message: LiteralString
+) -> PydanticCustomError:
     return PydanticCustomError(error_type, message, {"error": {}})
 
 
 @contextmanager
-def raise_request_validation_error(loc: str | None = None) -> Generator[None, None, None]:
+def raise_request_validation_error(
+    loc: str | None = None,
+) -> Generator[None, None, None]:
     try:
         yield
     except ValidationError as err:
