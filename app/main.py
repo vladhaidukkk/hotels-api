@@ -1,10 +1,11 @@
 from contextlib import contextmanager
 from datetime import date
-from typing import Annotated, Self, Generator
+from typing import Annotated, Self, Generator, LiteralString
 
 from fastapi import FastAPI, Query, Depends
 from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel, Field, model_validator, ValidationError
+from pydantic_core import PydanticCustomError
 
 app = FastAPI()
 
@@ -21,6 +22,10 @@ hotels = [
     Hotel(name="Mountain Retreat", city="Highpeak", address="456 Alpine St", stars=5),
     Hotel(name="Urban Hotel Central", city="Metrocity", address="789 Main Blvd", stars=3)
 ]
+
+
+def create_custom_error(error_type: LiteralString, message: LiteralString) -> PydanticCustomError:
+    return PydanticCustomError(error_type, message, {"error": {}})
 
 
 @contextmanager
@@ -46,7 +51,10 @@ class ValidatedHotelSearchParams(HotelSearchParams):
     @model_validator(mode="after")
     def validate_date_range(self) -> Self:
         if self.date_from and self.date_to and self.date_from > self.date_to:
-            raise ValueError("start date can't be greater than end date")
+            raise create_custom_error(
+                "date_range_invalid",
+                "Start date can't be greater than end date",
+            )
         return self
 
 
