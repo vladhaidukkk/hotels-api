@@ -1,9 +1,10 @@
-from dataclasses import dataclass
+from contextlib import contextmanager
 from datetime import date
-from typing import Annotated
+from typing import Annotated, Self, Generator
 
 from fastapi import FastAPI, Query, Depends
-from pydantic import BaseModel, Field
+from fastapi.exceptions import RequestValidationError
+from pydantic import BaseModel, Field, model_validator, ValidationError
 
 app = FastAPI()
 
@@ -22,16 +23,38 @@ hotels = [
 ]
 
 
-@dataclass
-class GetHotelsParams:
+@contextmanager
+def raise_request_validation_error(loc: str | None = None) -> Generator[None, None, None]:
+    try:
+        yield
+    except ValidationError as err:
+        errors = err.errors()
+        if loc:
+            for error in errors:
+                error["loc"] = (loc, *error["loc"])
+        raise RequestValidationError(errors)
+
+
+class HotelSearchParams(BaseModel):
     location: str
-    date_from: date
-    date_to: date
+    date_from: date | None = None
+    date_to: date | None = None
     stars: Annotated[int | None, Query(ge=1, le=5)] = None
 
 
+class ValidatedHotelSearchParams(HotelSearchParams):
+    @model_validator(mode="after")
+    def validate_date_range(self) -> Self:
+        if self.date_from and self.date_to and self.date_from > self.date_to:
+            raise ValueError("start date can't be greater than end date")
+        return self
+
+
 @app.get("/hotels")
-def get_hotels(params: Annotated[GetHotelsParams, Depends()]) -> list[Hotel]:
+def get_hotels(params: Annotated[HotelSearchParams, Depends()]) -> list[Hotel]:
+    with raise_request_validation_error("query"):
+        ValidatedHotelSearchParams.model_validate(params.model_dump())
+
     result = []
     for hotel in hotels:
         if params.stars and params.stars != hotel.stars:
