@@ -13,10 +13,14 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    "isort",
     "black",
     "flake8",
     "flake8-pyproject",
 ]
+
+[tool.isort]
+profile = "black"
 
 [tool.black]
 line-length = 88

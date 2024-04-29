@@ -26,6 +26,8 @@ h11==0.14.0
     # via uvicorn
 idna==3.7
     # via anyio
+isort==5.13.2
+    # via hotels-api (pyproject.toml)
 mccabe==0.7.0
     # via flake8
 mypy-extensions==1.0.0

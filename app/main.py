@@ -1,10 +1,10 @@
 from contextlib import contextmanager
 from datetime import date
-from typing import Annotated, Self, Generator, LiteralString
+from typing import Annotated, Generator, LiteralString, Self
 
-from fastapi import FastAPI, Query, Depends
+from fastapi import Depends, FastAPI, Query
 from fastapi.exceptions import RequestValidationError
-from pydantic import BaseModel, Field, model_validator, ValidationError
+from pydantic import BaseModel, Field, ValidationError, model_validator
 from pydantic_core import PydanticCustomError
 
 app = FastAPI()

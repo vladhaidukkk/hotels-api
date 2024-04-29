@@ -12,6 +12,7 @@ run-dev:
 	@uvicorn app.main:app --port 8000 --reload
 
 fmt:
+	@isort app
 	@black app
 
 lint:
