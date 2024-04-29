@@ -16,5 +16,6 @@ fmt:
 	@black app
 
 lint:
+	@pyright app
 	@flake8 app
 	@autoflake -r app
