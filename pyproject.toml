@@ -12,7 +12,16 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["black"]
+dev = [
+    "black",
+    "flake8",
+    "flake8-pyproject",
+]
 
 [tool.black]
 line-length = 88
+
+[tool.flake8]
+max-line-length = 88
+max-complexity = 8
+ignore = ["E203", "E701"]

@@ -13,3 +13,6 @@ run-dev:
 
 fmt:
 	@black app
+
+lint:
+	@flake8 app
