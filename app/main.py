@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from datetime import date
+from datetime import date, datetime
 from typing import Annotated, Generator, LiteralString, Self
 
 from fastapi import Depends, FastAPI, Query, status
@@ -79,13 +79,32 @@ def get_hotels(params: Annotated[HotelSearchParams, Depends()]) -> list[Hotel]:
     return result
 
 
-class BookingIn(BaseModel):
+class BaseBooking(BaseModel):
     hotel_id: int
     room_id: int
     date_from: date
     date_to: date
 
 
-@app.post("/bookings", status_code=status.HTTP_201_CREATED)
-def create_booking(booking: BookingIn):
-    return booking
+class Booking(BaseBooking):
+    created_at: datetime
+    updated_at: datetime
+
+
+class BookingIn(BaseBooking):
+    pass
+
+
+class BookingOut(Booking):
+    pass
+
+
+bookings: list[Booking] = []
+
+
+@app.post("/bookings", status_code=status.HTTP_201_CREATED, response_model=BookingOut)
+def create_booking(booking: BookingIn) -> Booking:
+    now = datetime.now()
+    new_booking = Booking(**booking.model_dump(), created_at=now, updated_at=now)
+    bookings.append(new_booking)
+    return new_booking
