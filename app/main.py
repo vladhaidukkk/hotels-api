@@ -2,7 +2,7 @@ from contextlib import contextmanager
 from datetime import date
 from typing import Annotated, Generator, LiteralString, Self
 
-from fastapi import Depends, FastAPI, Query
+from fastapi import Depends, FastAPI, Query, status
 from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel, Field, ValidationError, model_validator
 from pydantic_core import PydanticCustomError
@@ -86,6 +86,6 @@ class BookingIn(BaseModel):
     date_to: date
 
 
-@app.post("/bookings")
+@app.post("/bookings", status_code=status.HTTP_201_CREATED)
 def create_booking(booking: BookingIn):
     return booking
