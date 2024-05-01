@@ -68,7 +68,9 @@ pyflakes==3.2.0
     #   flake8
 pygments==2.17.2
     # via rich
-pyright==1.1.360
+pyright==1.1.361
+    # via hotels-api (pyproject.toml)
+python-dotenv==1.0.1
     # via hotels-api (pyproject.toml)
 python-multipart==0.0.9
     # via hotels-api (pyproject.toml)
