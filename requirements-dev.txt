@@ -18,7 +18,11 @@ click==8.1.7
     # via
     #   black
     #   uvicorn
-fastapi==0.110.2
+dnspython==2.6.1
+    # via email-validator
+email-validator==2.1.1
+    # via hotels-api (pyproject.toml)
+fastapi==0.110.3
     # via hotels-api (pyproject.toml)
 flake8==7.0.0
     # via
@@ -29,7 +33,9 @@ flake8-pyproject==1.2.3
 h11==0.14.0
     # via uvicorn
 idna==3.7
-    # via anyio
+    # via
+    #   anyio
+    #   email-validator
 isort==5.13.2
     # via hotels-api (pyproject.toml)
 markdown-it-py==3.0.0
@@ -63,6 +69,8 @@ pyflakes==3.2.0
 pygments==2.17.2
     # via rich
 pyright==1.1.360
+    # via hotels-api (pyproject.toml)
+python-multipart==0.0.9
     # via hotels-api (pyproject.toml)
 pyyaml==6.0.1
     # via bandit
