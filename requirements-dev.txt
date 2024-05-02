@@ -56,6 +56,10 @@ pbr==6.0.0
     # via stevedore
 platformdirs==4.2.1
     # via black
+psycopg[binary]==3.1.18
+    # via hotels-api (pyproject.toml)
+psycopg-binary==3.1.18
+    # via psycopg
 pycodestyle==2.11.1
     # via flake8
 pydantic==2.7.1
@@ -80,6 +84,8 @@ rich==13.7.1
     # via bandit
 sniffio==1.3.1
     # via anyio
+sqlalchemy==2.0.29
+    # via hotels-api (pyproject.toml)
 starlette==0.37.2
     # via fastapi
 stevedore==5.2.0
@@ -87,8 +93,10 @@ stevedore==5.2.0
 typing-extensions==4.11.0
     # via
     #   fastapi
+    #   psycopg
     #   pydantic
     #   pydantic-core
+    #   sqlalchemy
 uvicorn==0.29.0
     # via hotels-api (pyproject.toml)
 

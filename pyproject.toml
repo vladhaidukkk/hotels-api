@@ -11,6 +11,8 @@ dependencies = [
     "python-multipart",
     "email-validator",
     "python-dotenv",
+    "psycopg[binary]",
+    "sqlalchemy",
     "uvicorn",
 ]
 
