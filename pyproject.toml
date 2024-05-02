@@ -13,6 +13,7 @@ dependencies = [
     "python-dotenv",
     "psycopg[binary]",
     "sqlalchemy",
+    "greenlet",
     "uvicorn",
 ]
 
