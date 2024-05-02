@@ -1,12 +1,12 @@
-from app.db.core import metadata, sync_engine
+from app.db.core import Base, sync_engine
 
-# Import all tables to register them in the metadata object
-from app.hotels.table import hotels_table  # noqa
+# Import all models to register them in the metadata object
+from app.hotels.model import HotelModel  # noqa
 
 
 def reset_db():
-    metadata.drop_all(sync_engine)
-    metadata.create_all(sync_engine)
+    Base.metadata.drop_all(sync_engine)
+    Base.metadata.create_all(sync_engine)
 
 
 if __name__ == "__main__":
