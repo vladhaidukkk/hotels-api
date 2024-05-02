@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from app.bookings import router as bookings_router
-from app.hotels import router as hotels_router
+from app.hotels.endpoints import router as hotels_router
 from app.login import router as login_router
 
 app = FastAPI()

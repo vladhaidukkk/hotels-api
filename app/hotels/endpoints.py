@@ -4,8 +4,12 @@ from typing import Annotated, Generator, LiteralString, Self
 
 from fastapi import APIRouter, Depends, Query
 from fastapi.exceptions import RequestValidationError
-from pydantic import BaseModel, Field, ValidationError, model_validator
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
 from pydantic_core import PydanticCustomError
+from sqlalchemy.sql import ColumnExpressionArgument, and_, select
+
+from app.db.core import async_engine
+from app.hotels.table import hotels_table
 
 router = APIRouter(prefix="/hotels", tags=["Hotels"])
 
@@ -31,19 +35,13 @@ def raise_request_validation_error(
 
 
 class Hotel(BaseModel):
+    id: int
     name: str
-    city: str
-    address: str
+    location: str
     stars: int = Field(ge=1, le=5)
+    services: dict | None
 
-
-hotels = [
-    Hotel(name="Seaside Escape", city="Oceanview", address="123 Coastal Rd", stars=4),
-    Hotel(name="Mountain Retreat", city="Highpeak", address="456 Alpine St", stars=5),
-    Hotel(
-        name="Urban Hotel Central", city="Metrocity", address="789 Main Blvd", stars=3
-    ),
-]
+    model_config = ConfigDict(from_attributes=True)
 
 
 class HotelSearchParams(BaseModel):
@@ -64,16 +62,19 @@ class ValidatedHotelSearchParams(HotelSearchParams):
         return self
 
 
-@router.get("")
-def get_hotels(params: Annotated[HotelSearchParams, Depends()]) -> list[Hotel]:
+@router.get("", response_model=list[Hotel])
+async def get_hotels(params: Annotated[HotelSearchParams, Depends()]):
     with raise_request_validation_error("query"):
         ValidatedHotelSearchParams.model_validate(params.model_dump())
 
-    result = []
-    for hotel in hotels:
-        if params.stars and params.stars != hotel.stars:
-            continue
-        if params.location not in hotel.city and params.location not in hotel.address:
-            continue
-        result.append(hotel)
-    return result
+    async with async_engine.begin() as conn:
+        conditions: list[ColumnExpressionArgument[bool]] = [
+            hotels_table.c.location.ilike(f"%{params.location}%")
+        ]
+        if params.stars:
+            conditions.append(hotels_table.c.stars == params.stars)
+        query = select(hotels_table).where(and_(*conditions))
+        res = await conn.execute(query)
+        hotels = res.all()
+
+    return hotels
