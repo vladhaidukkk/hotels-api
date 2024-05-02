@@ -60,6 +60,10 @@ pbr==6.0.0
     # via stevedore
 platformdirs==4.2.1
     # via black
+psycopg[binary]==3.1.18
+    # via hotels-api (pyproject.toml)
+psycopg-binary==3.1.18
+    # via psycopg
 pycodestyle==2.11.1
     # via flake8
 pydantic==2.7.1
@@ -93,6 +97,7 @@ stevedore==5.2.0
 typing-extensions==4.11.0
     # via
     #   fastapi
+    #   psycopg
     #   pydantic
     #   pydantic-core
     #   sqlalchemy

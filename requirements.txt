@@ -26,6 +26,10 @@ idna==3.7
     # via
     #   anyio
     #   email-validator
+psycopg[binary]==3.1.18
+    # via hotels-api (pyproject.toml)
+psycopg-binary==3.1.18
+    # via psycopg
 pydantic==2.7.1
     # via fastapi
 pydantic-core==2.18.2
@@ -43,6 +47,7 @@ starlette==0.37.2
 typing-extensions==4.11.0
     # via
     #   fastapi
+    #   psycopg
     #   pydantic
     #   pydantic-core
     #   sqlalchemy
