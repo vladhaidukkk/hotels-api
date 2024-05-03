@@ -4,12 +4,12 @@ from typing import Annotated, Generator, LiteralString, Self
 
 from fastapi import APIRouter, Depends, Query
 from fastapi.exceptions import RequestValidationError
-from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
+from pydantic import BaseModel, Field, ValidationError, model_validator
 from pydantic_core import PydanticCustomError
 from sqlalchemy.sql import ColumnExpressionArgument, and_, select
 
-from app.db.core import async_engine
-from app.hotels.table import hotels_table
+from app.db.core import async_session
+from app.hotels.model import HotelModel
 
 router = APIRouter(prefix="/hotels", tags=["Hotels"])
 
@@ -41,8 +41,6 @@ class Hotel(BaseModel):
     stars: int = Field(ge=1, le=5)
     services: dict | None
 
-    model_config = ConfigDict(from_attributes=True)
-
 
 class HotelSearchParams(BaseModel):
     location: str
@@ -67,14 +65,14 @@ async def get_hotels(params: Annotated[HotelSearchParams, Depends()]):
     with raise_request_validation_error("query"):
         ValidatedHotelSearchParams.model_validate(params.model_dump())
 
-    async with async_engine.begin() as conn:
+    async with async_session() as session:
         conditions: list[ColumnExpressionArgument[bool]] = [
-            hotels_table.c.location.ilike(f"%{params.location}%")
+            HotelModel.location.icontains(params.location)
         ]
         if params.stars:
-            conditions.append(hotels_table.c.stars == params.stars)
-        query = select(hotels_table).where(and_(*conditions))
-        res = await conn.execute(query)
-        hotels = res.all()
+            conditions.append(HotelModel.stars == params.stars)
+        query = select(HotelModel).where(and_(*conditions))
+        res = await session.execute(query)
+        hotels = res.scalars().all()
 
     return hotels
