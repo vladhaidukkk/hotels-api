@@ -6,15 +6,16 @@ from app.db.core import Base, sync_session
 
 class HotelModel(Base):
     __tablename__ = "hotels"
-    __table_args__ = (
-        CheckConstraint("stars BETWEEN 1 AND 5", name="hotels_stars_range_check"),
-    )
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
     location: Mapped[str]
     stars: Mapped[int] = mapped_column(SmallInteger)
     services: Mapped[dict | None] = mapped_column(JSON)
+
+    __table_args__ = (
+        CheckConstraint("stars BETWEEN 1 AND 5", name="hotels_stars_range_check"),
+    )
 
 
 def _insert_mock_hotels():
