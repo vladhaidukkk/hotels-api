@@ -4,12 +4,13 @@ from sqlalchemy import JSON, CheckConstraint, SmallInteger
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.core import Base, session_factory
+from app.db.types import IntPrimaryKey
 
 
 class HotelModel(Base):
     __tablename__ = "hotels"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[IntPrimaryKey]
     name: Mapped[str]
     location: Mapped[str]
     stars: Mapped[int] = mapped_column(SmallInteger)
