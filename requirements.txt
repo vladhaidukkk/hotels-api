@@ -64,7 +64,7 @@ markupsafe==2.1.5
     #   mako
 mdurl==0.1.2
     # via markdown-it-py
-orjson==3.10.2
+orjson==3.10.3
     # via fastapi
 psycopg[binary]==3.1.18
     # via hotels-api (pyproject.toml)

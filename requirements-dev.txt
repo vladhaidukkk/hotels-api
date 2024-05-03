@@ -25,6 +25,8 @@ certifi==2024.2.2
     # via
     #   httpcore
     #   httpx
+charset-normalizer==3.3.2
+    # via docformatter
 click==8.1.7
     # via
     #   black
@@ -32,6 +34,8 @@ click==8.1.7
     #   uvicorn
 dnspython==2.6.1
     # via email-validator
+docformatter==1.7.5
+    # via hotels-api (pyproject.toml)
 email-validator==2.1.1
     # via
     #   fastapi
@@ -85,7 +89,7 @@ mypy-extensions==1.0.0
     # via black
 nodeenv==1.8.0
     # via pyright
-orjson==3.10.2
+orjson==3.10.3
     # via fastapi
 packaging==24.0
     # via black
@@ -156,6 +160,8 @@ typing-extensions==4.11.0
     #   typer
 ujson==5.9.0
     # via fastapi
+untokenize==0.1.1
+    # via docformatter
 uvicorn[standard]==0.29.0
     # via
     #   fastapi

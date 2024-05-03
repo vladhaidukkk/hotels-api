@@ -1,7 +1,7 @@
 """Create hotels table.
 
 Revision ID: 1ead8edb6df4
-Revises: 
+Revises:
 Create Date: 2024-05-03 14:51:28.009200+00:00
 
 """
