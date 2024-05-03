@@ -3,7 +3,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from app.config import SYNC_DB_URL
+from app.config import settings
 from app.db.core import Base
 
 # Import all models to register them in the metadata object
@@ -17,7 +17,7 @@ if config.config_file_name is not None:
 target_metadata = Base.metadata
 
 # Dynamic config modifications
-config.set_main_option("sqlalchemy.url", SYNC_DB_URL)
+config.set_main_option("sqlalchemy.url", f"{settings.db_url}?async_fallback=True")
 
 
 def run_migrations_offline() -> None:

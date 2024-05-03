@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field, ValidationError, model_validator
 from pydantic_core import PydanticCustomError
 from sqlalchemy.sql import ColumnExpressionArgument, and_, select
 
-from app.db.core import async_session
+from app.db.core import session_factory
 from app.hotels.model import HotelModel
 
 router = APIRouter(prefix="/hotels", tags=["Hotels"])
@@ -65,7 +65,7 @@ async def get_hotels(params: Annotated[HotelSearchParams, Depends()]):
     with raise_request_validation_error("query"):
         ValidatedHotelSearchParams.model_validate(params.model_dump())
 
-    async with async_session() as session:
+    async with session_factory() as session:
         conditions: list[ColumnExpressionArgument[bool]] = [
             HotelModel.location.icontains(params.location)
         ]

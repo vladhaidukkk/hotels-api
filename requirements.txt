@@ -71,14 +71,18 @@ psycopg[binary]==3.1.18
 psycopg-binary==3.1.18
     # via psycopg
 pydantic==2.7.1
-    # via fastapi
+    # via
+    #   fastapi
+    #   pydantic-settings
 pydantic-core==2.18.2
     # via pydantic
+pydantic-settings==2.2.1
+    # via hotels-api (pyproject.toml)
 pygments==2.17.2
     # via rich
 python-dotenv==1.0.1
     # via
-    #   hotels-api (pyproject.toml)
+    #   pydantic-settings
     #   uvicorn
 python-multipart==0.0.9
     # via

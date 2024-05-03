@@ -10,7 +10,7 @@ dependencies = [
     "fastapi",
     "python-multipart",
     "email_validator",
-    "python-dotenv",
+    "pydantic-settings",
     "psycopg[binary]",
     "asyncpg",
     "sqlalchemy",

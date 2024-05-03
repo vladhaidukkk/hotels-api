@@ -1,20 +1,22 @@
-import os
-
-from dotenv import load_dotenv
-
-load_dotenv()
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Extra
 
 
-DB_HOST = os.environ["DB_HOST"]
-DB_PORT = os.environ["DB_PORT"]
-DB_USER = os.environ["DB_USER"]
-DB_PASS = os.environ["DB_PASS"]
-DB_NAME = os.environ["DB_NAME"]
+class Settings(BaseSettings):
+    db_host: str
+    db_port: int
+    db_user: str
+    db_pass: str
+    db_name: str
+
+    @property
+    def db_url(self):
+        return (
+            f"postgresql+asyncpg://{self.db_user}:{self.db_pass}"
+            f"@{self.db_host}:{self.db_port}/{self.db_name}"
+        )
+
+    model_config = SettingsConfigDict(env_file=".env", extra=Extra.ignore)
 
 
-def create_db_url(driver: str):
-    return f"postgresql+{driver}://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
-
-SYNC_DB_URL = create_db_url("psycopg")
-ASYNC_DB_URL = create_db_url("asyncpg")
+settings = Settings()  # type: ignore

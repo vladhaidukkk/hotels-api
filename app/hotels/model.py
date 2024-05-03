@@ -1,7 +1,9 @@
+import asyncio
+
 from sqlalchemy import JSON, CheckConstraint, SmallInteger
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.db.core import Base, sync_session
+from app.db.core import Base, session_factory
 
 
 class HotelModel(Base):
@@ -18,8 +20,8 @@ class HotelModel(Base):
     )
 
 
-def _insert_mock_hotels():
-    with sync_session() as session:
+async def _insert_mock_hotels():
+    async with session_factory() as session:
         instances = [
             HotelModel(
                 id=1,
@@ -44,8 +46,8 @@ def _insert_mock_hotels():
             ),
         ]
         session.add_all(instances)
-        session.commit()
+        await session.commit()
 
 
 if __name__ == "__main__":
-    _insert_mock_hotels()
+    asyncio.run(_insert_mock_hotels())
