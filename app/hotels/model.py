@@ -25,21 +25,18 @@ async def _insert_mock_hotels():
     async with session_factory() as session:
         instances = [
             HotelModel(
-                id=1,
                 name="Seaside Resort",
                 location="Oceanview Boulevard, Miami",
                 stars=4,
                 services={"wifi": True, "pool": True, "gym": False},
             ),
             HotelModel(
-                id=2,
                 name="Mountain Escape",
                 location="Highlands Lane, Denver",
                 stars=5,
                 services={"wifi": True, "pool": False, "ski": True},
             ),
             HotelModel(
-                id=3,
                 name="Urban Hotel Central",
                 location="Downtown Crossing, New York",
                 stars=5,

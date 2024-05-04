@@ -16,6 +16,7 @@ dependencies = [
     "sqlalchemy",
     "greenlet",
     "alembic",
+    "passlib[bcrypt]",
     "uvicorn",
 ]
 

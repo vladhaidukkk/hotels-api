@@ -19,6 +19,8 @@ autoflake==2.3.1
     # via hotels-api (pyproject.toml)
 bandit==1.7.8
     # via hotels-api (pyproject.toml)
+bcrypt==4.1.2
+    # via passlib
 black==24.4.2
     # via hotels-api (pyproject.toml)
 certifi==2024.2.2
@@ -93,6 +95,8 @@ orjson==3.10.3
     # via fastapi
 packaging==24.0
     # via black
+passlib[bcrypt]==1.7.4
+    # via hotels-api (pyproject.toml)
 pathspec==0.12.1
     # via black
 pbr==6.0.0
