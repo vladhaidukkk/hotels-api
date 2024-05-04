@@ -13,9 +13,9 @@ sync-dev:
 
 # Code Formatting & Linting
 fmt:
-    isort app
-    black app
-    docformatter app
+    -isort app
+    -black app
+    -docformatter app
 
 lint:
     -pyright app

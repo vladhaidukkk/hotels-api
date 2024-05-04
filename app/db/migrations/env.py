@@ -7,6 +7,8 @@ from app.config import settings
 from app.db.core import Base
 
 # Import all models to register them in the metadata object
+# isort: split
+from app.bookings.model import BookingModel  # noqa
 from app.hotels.model import HotelModel  # noqa
 from app.rooms.model import RoomModel  # noqa
 from app.users.model import UserModel  # noqa
