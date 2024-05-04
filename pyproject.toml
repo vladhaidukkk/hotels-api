@@ -53,3 +53,6 @@ ignore = ["E203", "F401", "E701"]
 recursive = true
 remove-all-unused-imports = true
 ignore-init-module-imports = true
+
+[tool.bandit]
+skips = ["B101"]
