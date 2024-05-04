@@ -8,6 +8,7 @@ from app.db.core import Base
 
 # Import all models to register them in the metadata object
 from app.hotels.model import HotelModel  # noqa
+from app.rooms.model import RoomModel  # noqa
 from app.users.model import UserModel  # noqa
 
 config = context.config
