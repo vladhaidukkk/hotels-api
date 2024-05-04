@@ -1,0 +1,16 @@
+id,name,description,capacity,services,price,quantity,hotel_id
+1,"Suite 101","A luxurious suite with ocean views",2,"[""wifi"", ""pool""]",250,3,1
+2,"Room 102","Standard room with pool access",2,"[""wifi"", ""spa""]",150,5,1
+3,"Room 103","Budget room with basic amenities",1,"[""wifi""]",100,10,1
+4,"Mountain View","Room with panoramic mountain views",4,"[""wifi"", ""hiking""]",300,2,2
+5,"Ski Lover's Lodge","Perfect for ski enthusiasts",2,"[""wifi"", ""skiing""]",350,1,2
+6,"Quiet Retreat","Escape into quiet and solitude",2,"[""wifi"", ""spa""]",280,4,2
+7,"Urban Deluxe","Stylish suite for the modern traveler",3,"[""wifi"", ""bar""]",400,2,3
+8,"City Room","Ideal room for exploring NYC",2,"[""wifi"", ""gym""]",350,2,3
+9,"Conference Suite","Equipped for business needs",3,"[""wifi"", ""conference rooms""]",500,1,3
+10,"Lake View","Beautiful views of Lake Tahoe",2,"[""wifi"", ""boat rental""]",200,5,4
+11,"Fisher's Cove","For the fishing aficionados",4,"[""wifi"", ""fishing""]",250,3,4
+12,"Nature Lover's Nook","A hiker's paradise",2,"[""wifi"", ""hiking""]",220,2,4
+13,"Safari Suite","Luxury suite overlooking the park",2,"[""wifi"", ""safari""]",600,2,5
+14,"Photographer's Den","Ideal for capturing nature",3,"[""wifi"", ""photography tours""]",550,1,5
+15,"Open Air Sleep","Sleep under the stars",2,"[""wifi"", ""outdoor dining""]",500,2,5
