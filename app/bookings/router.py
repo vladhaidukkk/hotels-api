@@ -2,9 +2,9 @@ from datetime import date, datetime
 
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
-from sqlalchemy import select
 
 from app.bookings.model import BookingModel
+from app.bookings.repo import BookingRepo
 from app.db.core import session_factory
 from app.rooms.model import RoomModel
 
@@ -33,12 +33,7 @@ class BookingOut(BookingBase):
 
 @router.get("", response_model=list[BookingOut])
 async def get_bookings():
-    async with session_factory() as session:
-        query = select(BookingModel)
-        res = await session.execute(query)
-        bookings = res.scalars().all()
-
-    return bookings
+    return await BookingRepo.get_all()
 
 
 @router.post("", status_code=status.HTTP_201_CREATED, response_model=BookingOut)
