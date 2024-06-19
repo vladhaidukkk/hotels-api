@@ -1,6 +1,6 @@
 from app.bookings.model import BookingModel
-from app.db.base_repo import BaseRepo
+from app.db.repo_base import RepoBase
 
 
-class BookingRepo(BaseRepo[BookingModel]):
+class BookingsRepo(RepoBase[BookingModel]):
     pass

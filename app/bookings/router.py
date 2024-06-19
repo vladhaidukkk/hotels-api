@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 
 from app.bookings.model import BookingModel
-from app.bookings.repo import BookingRepo
+from app.bookings.repo import BookingsRepo
 from app.db.core import session_factory
 from app.rooms.model import RoomModel
 
@@ -33,7 +33,7 @@ class BookingOut(BookingBase):
 
 @router.get("", response_model=list[BookingOut])
 async def get_bookings():
-    return await BookingRepo.get_all()
+    return await BookingsRepo.get_all()
 
 
 @router.post("", status_code=status.HTTP_201_CREATED, response_model=BookingOut)
