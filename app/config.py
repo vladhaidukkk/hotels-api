@@ -21,6 +21,10 @@ class Settings(BaseSettings):
         )
         return dsn.unicode_string()
 
+    jwt_secret_key: str
+    jwt_algorithm: str
+    jwt_access_token_expire_minutes: int
+
     model_config = SettingsConfigDict(env_file=".env", extra=Extra.ignore)
 
 

@@ -18,6 +18,7 @@ dependencies = [
   "alembic",
   "passlib[bcrypt]",
   "uvicorn",
+  "pyjwt",
 ]
 
 [project.optional-dependencies]

@@ -100,6 +100,7 @@ pyflakes==3.2.0
     #   flake8
 pygments==2.18.0
     # via rich
+pyjwt==2.8.0
 pyright==1.1.368
 python-dotenv==1.0.1
     # via
