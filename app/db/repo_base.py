@@ -1,6 +1,6 @@
 from typing import Sequence, Type
 
-from sqlalchemy import ColumnExpressionArgument, select
+from sqlalchemy import ColumnExpressionArgument, insert, select
 
 from app.db.core import Base, session_factory
 
@@ -32,3 +32,11 @@ class RepoBase[T: Base]:
             query = select(cls.model()).filter(*filters)
             result = await session.execute(query)
             return result.scalars().all()
+
+    @classmethod
+    async def add(cls, **data) -> int:
+        async with session_factory() as session:
+            stmt = insert(cls.model()).values(**data).returning(cls.model().id)
+            result = await session.execute(stmt)
+            await session.commit()
+            return result.scalar()

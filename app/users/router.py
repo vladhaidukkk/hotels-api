@@ -3,10 +3,9 @@ from datetime import datetime
 from fastapi import APIRouter, HTTPException, status
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr, SecretStr
-from sqlalchemy.exc import IntegrityError
 
-from app.db.core import session_factory
 from app.users.model import UserModel
+from app.users.repo import UsersRepo
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -22,30 +21,19 @@ class HashService:
 hash_service = HashService()
 
 
-class UserIn(BaseModel):
+class UserRegister(BaseModel):
     email: EmailStr
     password: SecretStr
 
 
-class UserOut(BaseModel):
-    id: int
-    email: EmailStr
-    created_at: datetime
-    updated_at: datetime
+@router.post("/register", status_code=status.HTTP_201_CREATED)
+async def create_user(data: UserRegister) -> int:
+    existing_user = await UsersRepo.get_one_or_none(UserModel.email == data.email)
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="User with this email already exists",
+        )
 
-
-@router.post("", status_code=status.HTTP_201_CREATED, response_model=UserOut)
-async def create_user(data: UserIn):
-    async with session_factory() as session:
-        try:
-            hashed_password = hash_service.hash(data.password.get_secret_value())
-            user = UserModel(email=data.email, hashed_password=hashed_password)
-            session.add(user)
-            await session.commit()
-        except IntegrityError:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail="User with this email already exists",
-            )
-
-    return user
+    hashed_password = hash_service.hash(data.password.get_secret_value())
+    return await UsersRepo.add(email=data.email, hashed_password=hashed_password)
