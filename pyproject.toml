@@ -7,29 +7,29 @@ name = "hotels-api"
 version = "0.0.1"
 requires-python = "==3.12.0"
 dependencies = [
-    "fastapi",
-    "python-multipart",
-    "email_validator",
-    "pydantic-settings",
-    "psycopg[binary]",
-    "asyncpg",
-    "sqlalchemy",
-    "greenlet",
-    "alembic",
-    "passlib[bcrypt]",
-    "uvicorn",
+  "fastapi",
+  "python-multipart",
+  "email_validator",
+  "pydantic-settings",
+  "psycopg[binary]",
+  "asyncpg",
+  "sqlalchemy",
+  "greenlet",
+  "alembic",
+  "passlib[bcrypt]",
+  "uvicorn",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "isort",
-    "black",
-    "docformatter",
-    "pyright",
-    "flake8",
-    "flake8-pyproject",
-    "autoflake",
-    "bandit",
+  "isort",
+  "black",
+  "docformatter",
+  "pyright",
+  "flake8",
+  "flake8-pyproject",
+  "autoflake",
+  "bandit",
 ]
 
 [tool.isort]

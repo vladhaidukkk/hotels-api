@@ -2,14 +2,18 @@ default: fmt lint
 
 # Dependencies Management
 lock:
-    pip-compile --upgrade -o requirements.txt
-    pip-compile --extra dev --upgrade -o requirements-dev.txt
+    uv pip compile pyproject.toml -o requirements.txt
+    uv pip compile pyproject.toml --extra dev -o requirements-dev.txt
+
+lock-up:
+    uv pip compile pyproject.toml --upgrade -o requirements.txt
+    uv pip compile pyproject.toml --extra dev --upgrade -o requirements-dev.txt
 
 sync:
-    pip-sync requirements.txt
+    uv pip sync requirements.txt
 
 sync-dev:
-    pip-sync requirements-dev.txt
+    uv pip sync requirements-dev.txt
 
 # Code Formatting & Linting
 fmt:
