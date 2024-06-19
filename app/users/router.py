@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 
 import jwt
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Response, status
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr, SecretStr
 
@@ -69,11 +69,12 @@ async def authenticate_user(email: EmailStr, password: SecretStr) -> UserModel |
 
 
 @router.post("/login", status_code=status.HTTP_201_CREATED)
-async def login_user(data: UserAuth) -> str:
+async def login_user(response: Response, data: UserAuth) -> None:
     user = await authenticate_user(data.email, data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
         )
 
-    return create_access_token({"id": user.id})
+    access_token = create_access_token({"sub": user.id})
+    response.set_cookie("access_token", access_token)
