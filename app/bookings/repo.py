@@ -51,7 +51,9 @@ class BookingsRepo(RepoBase[BookingModel]):
                     )
                 )
                 .select_from(RoomModel)
-                .join(booked_rooms, booked_rooms.c.room_id == RoomModel.id)
+                .join(
+                    booked_rooms, booked_rooms.c.room_id == RoomModel.id, isouter=True
+                )
                 .filter(RoomModel.id == room_id)
                 .group_by(RoomModel.quantity)
             )
@@ -59,24 +61,17 @@ class BookingsRepo(RepoBase[BookingModel]):
             rooms_left_result = await session.execute(rooms_left_query)
             rooms_left: int = rooms_left_result.scalar()
 
-            if rooms_left <= 0:
+            if rooms_left < 1:
                 return None
 
             room_price_query = select(RoomModel.price).filter_by(id=room_id)
             room_price_result = await session.execute(room_price_query)
             room_price: int = room_price_result.scalar()
 
-            create_booking_stmt = (
-                insert(BookingModel)
-                .values(
-                    user_id=user_id,
-                    room_id=room_id,
-                    date_from=date_from,
-                    date_to=date_to,
-                    price=room_price,
-                )
-                .returning(BookingModel)
+            return await super().add(
+                user_id=user_id,
+                room_id=room_id,
+                date_from=date_from,
+                date_to=date_to,
+                price=room_price,
             )
-            create_booking_result = await session.execute(create_booking_stmt)
-            await session.commit()
-            return create_booking_result.scalar()

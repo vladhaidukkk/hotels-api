@@ -10,8 +10,8 @@ from app.users.schemas import UserAuth, UserOut
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
-@router.post("/register", status_code=status.HTTP_201_CREATED)
-async def register_user(data: UserAuth) -> int:
+@router.post("/register", status_code=status.HTTP_201_CREATED, response_model=UserOut)
+async def register_user(data: UserAuth) -> UserModel:
     existing_user = await UsersRepo.get_one_or_none(UserModel.email == data.email)
     if existing_user:
         raise user_already_exists

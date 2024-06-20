@@ -34,9 +34,9 @@ class RepoBase[T: Base]:
             return result.scalars().all()
 
     @classmethod
-    async def add(cls, **data) -> int:
+    async def add(cls, **data) -> T:
         async with session_factory() as session:
-            stmt = insert(cls.model()).values(**data).returning(cls.model().id)
+            stmt = insert(cls.model()).values(**data).returning(cls.model())
             result = await session.execute(stmt)
             await session.commit()
             return result.scalar()
