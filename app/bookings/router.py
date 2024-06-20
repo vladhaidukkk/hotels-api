@@ -4,7 +4,7 @@ from app.bookings.model import BookingModel
 from app.bookings.repo import BookingsRepo
 from app.bookings.schemas import BookingIn, BookingOut
 from app.db.core import session_factory
-from app.exceptions import room_not_found, unavailable_room
+from app.exceptions import booking_not_found, room_not_found, unavailable_room
 from app.rooms.model import RoomModel
 from app.users.deps import CurrentUser
 
@@ -28,3 +28,12 @@ async def create_booking(user: CurrentUser, data: BookingIn) -> BookingModel:
         raise unavailable_room
 
     return booking
+
+
+@router.delete("/{booking_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_booking(user: CurrentUser, booking_id: int):
+    booking = await BookingsRepo.get_by_id(booking_id)
+    if not booking or booking.user_id != user.id:
+        raise booking_not_found
+
+    await BookingsRepo.delete_by_id(booking_id)

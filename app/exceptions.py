@@ -19,6 +19,11 @@ hotel_not_found = HTTPException(
     detail="Hotel with this ID doesn't exist",
 )
 
+booking_not_found = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND,
+    detail="Booking with this ID doesn't exist",
+)
+
 room_not_found = HTTPException(
     status_code=status.HTTP_404_NOT_FOUND,
     detail="Room with this ID doesn't exist",

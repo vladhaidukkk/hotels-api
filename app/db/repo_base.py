@@ -1,6 +1,6 @@
 from typing import Sequence, Type
 
-from sqlalchemy import ColumnExpressionArgument, insert, select
+from sqlalchemy import ColumnExpressionArgument, delete, insert, select
 
 from app.db.core import Base, session_factory
 
@@ -40,3 +40,10 @@ class RepoBase[T: Base]:
             result = await session.execute(stmt)
             await session.commit()
             return result.scalar()
+
+    @classmethod
+    async def delete_by_id(cls, id_: int) -> None:
+        async with session_factory() as session:
+            stmt = delete(cls.model()).filter_by(id=id_)
+            await session.execute(stmt)
+            await session.commit()
