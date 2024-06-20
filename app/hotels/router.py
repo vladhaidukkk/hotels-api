@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel, model_validator
 from sqlalchemy.sql import ColumnExpressionArgument
 
+from app.exceptions import hotel_not_found
 from app.hotels.model import HotelModel
 from app.hotels.repo import HotelsRepo
 from app.hotels.schemas import Hotel
@@ -41,3 +42,12 @@ async def get_hotels(location: str, params: Annotated[HotelSearchParams, Depends
     if params.stars:
         conditions.append(HotelModel.stars == params.stars)
     return await HotelsRepo.get_all(*conditions)
+
+
+@router.get("/id/{hotel_id}", response_model=Hotel)
+async def get_hotels(hotel_id: int) -> HotelModel:
+    hotel = await HotelsRepo.get_by_id(hotel_id)
+    if not hotel:
+        raise hotel_not_found
+
+    return hotel

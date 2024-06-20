@@ -14,6 +14,11 @@ invalid_token = HTTPException(
     detail="Could not validate credentials",
 )
 
+hotel_not_found = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND,
+    detail="Hotel with this ID doesn't exist",
+)
+
 room_not_found = HTTPException(
     status_code=status.HTTP_404_NOT_FOUND,
     detail="Room with this ID doesn't exist",
