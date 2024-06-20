@@ -11,12 +11,12 @@ from app.users.repo import UsersRepo
 context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-def hash_secret(self, secret: str) -> str:
-    return self.context.hash(secret)
+def hash_secret(secret: str) -> str:
+    return context.hash(secret)
 
 
-def verify_secret(self, secret: str, hashed: str) -> bool:
-    return self.context.verify(secret, hashed)
+def verify_secret(secret: str, hashed: str) -> bool:
+    return context.verify(secret, hashed)
 
 
 def create_access_token(data: dict) -> str:
