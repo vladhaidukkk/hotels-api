@@ -6,7 +6,7 @@ from pydantic import ValidationError
 from pydantic_core import PydanticCustomError
 
 
-def create_custom_error(
+def create_custom_validation_error(
     error_type: LiteralString, message: LiteralString
 ) -> PydanticCustomError:
     return PydanticCustomError(error_type, message, {"error": {}})

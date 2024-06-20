@@ -1,8 +1,7 @@
+from datetime import date
 from typing import Sequence
 
-from sqlalchemy import ColumnExpressionArgument, func, select, or_, and_
-from sqlalchemy.orm import aliased
-from datetime import date
+from sqlalchemy import ColumnExpressionArgument, and_, func, or_, select
 
 from app.bookings.model import BookingModel
 from app.db.core import session_factory
