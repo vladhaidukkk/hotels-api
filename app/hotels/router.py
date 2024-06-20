@@ -1,45 +1,16 @@
-from contextlib import contextmanager
 from datetime import date
-from typing import Annotated, Generator, LiteralString, Self
+from typing import Annotated, Self
 
 from fastapi import APIRouter, Depends, Query
-from fastapi.exceptions import RequestValidationError
-from pydantic import BaseModel, Field, ValidationError, model_validator
-from pydantic_core import PydanticCustomError
+from pydantic import BaseModel, model_validator
 from sqlalchemy.sql import ColumnExpressionArgument, and_, select
 
 from app.db.core import session_factory
 from app.hotels.model import HotelModel
+from app.hotels.schemas import Hotel
+from app.validation import create_custom_error, raise_request_validation_error
 
 router = APIRouter(prefix="/hotels", tags=["Hotels"])
-
-
-def create_custom_error(
-    error_type: LiteralString, message: LiteralString
-) -> PydanticCustomError:
-    return PydanticCustomError(error_type, message, {"error": {}})
-
-
-@contextmanager
-def raise_request_validation_error(
-    loc: str | None = None,
-) -> Generator[None, None, None]:
-    try:
-        yield
-    except ValidationError as err:
-        errors = err.errors()
-        if loc:
-            for error in errors:
-                error["loc"] = (loc, *error["loc"])
-        raise RequestValidationError(errors)
-
-
-class Hotel(BaseModel):
-    id: int
-    name: str
-    location: str
-    stars: int = Field(ge=1, le=5)
-    services: dict | None
 
 
 class HotelSearchParams(BaseModel):
