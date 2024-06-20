@@ -15,7 +15,7 @@ router = APIRouter(prefix="/hotels", tags=["Hotels"])
 router.include_router(rooms_router)
 
 
-@router.get("/{location}", response_model=list[HotelOut])
+@router.get("", response_model=list[HotelOut])
 async def get_hotels(
     location: str,
     date_range: DateRangeQueryParams,
@@ -29,7 +29,7 @@ async def get_hotels(
     return await HotelsRepo.get_all(*conditions)
 
 
-@router.get("/id/{hotel_id}", response_model=HotelOut)
+@router.get("/{hotel_id}", response_model=HotelOut)
 async def get_hotel(hotel_id: int) -> HotelModel:
     hotel = await HotelsRepo.get_by_id(hotel_id)
     if not hotel:
