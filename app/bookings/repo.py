@@ -15,19 +15,20 @@ class BookingsRepo(RepoBase[BookingModel]):
     ) -> BookingModel | None:
         """Query to get the number of available reservations for a specific room.
 
-        WITH booked_rooms AS ( SELECT * FROM bookings WHERE room_id = 1 AND
-        (date_from <= '2024-05-05' AND '2024-05-05' <= date_to) OR.
-
+        WITH room_bookings AS (
+            SELECT * FROM bookings
+            WHERE room_id = 1 AND
+                  (date_from <= '2024-05-05' AND '2024-05-05' <= date_to) OR
                   (date_from <= '2024-05-06' AND '2024-05-06' <= date_to)
         )
-        SELECT rooms.quantity - COUNT(booked_rooms.room_id) FROM rooms
-        LEFT JOIN booked_rooms ON booked_rooms.room_id = rooms.id
+        SELECT rooms.quantity - COUNT(room_bookings.room_id) FROM rooms
+        LEFT JOIN room_bookings ON room_bookings.room_id = rooms.id
         WHERE room_id = 1
         GROUP BY rooms.quantity;
 
         """
         async with session_factory() as session:
-            booked_rooms = (
+            room_bookings = (
                 select(BookingModel)
                 .filter(
                     BookingModel.room_id == room_id,
@@ -42,17 +43,17 @@ class BookingsRepo(RepoBase[BookingModel]):
                         ),
                     ),
                 )
-                .cte("booked_rooms")
+                .cte("room_bookings")
             )
             rooms_left_query = (
                 select(
-                    (RoomModel.quantity - func.count(booked_rooms.c.room_id)).label(
+                    (RoomModel.quantity - func.count(room_bookings.c.room_id)).label(
                         "rooms_left"
                     )
                 )
                 .select_from(RoomModel)
                 .join(
-                    booked_rooms, booked_rooms.c.room_id == RoomModel.id, isouter=True
+                    room_bookings, room_bookings.c.room_id == RoomModel.id, isouter=True
                 )
                 .filter(RoomModel.id == room_id)
                 .group_by(RoomModel.quantity)

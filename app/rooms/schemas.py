@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class RoomOut(BaseModel):
+class RoomBase(BaseModel):
     id: int
     name: str
     description: str | None
@@ -10,3 +10,7 @@ class RoomOut(BaseModel):
     price: int
     quantity: int
     hotel_id: int
+
+
+class RoomWithRoomsLeftOut(RoomBase):
+    rooms_left: int
