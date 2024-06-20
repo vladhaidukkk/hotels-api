@@ -9,9 +9,12 @@ from app.exceptions import hotel_not_found
 from app.hotels.model import HotelModel
 from app.hotels.repo import HotelsRepo
 from app.hotels.schemas import Hotel
+from app.rooms.router import router as rooms_router
 from app.validation import create_custom_error, raise_request_validation_error
 
 router = APIRouter(prefix="/hotels", tags=["Hotels"])
+
+router.include_router(rooms_router)
 
 
 class HotelSearchParams(BaseModel):
