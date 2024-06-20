@@ -1,7 +1,7 @@
 from typing import Annotated
 
 import jwt
-from fastapi import Cookie, HTTPException, status
+from fastapi import Cookie, Depends, HTTPException, status
 from jwt import InvalidTokenError
 
 from app.config import settings
@@ -45,3 +45,6 @@ async def get_current_user(
         )
 
     return user
+
+
+CurrentUser = Annotated[UserModel, Depends(get_current_user)]
