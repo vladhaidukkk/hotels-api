@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Annotated, Self
+from typing import Annotated, Self, Sequence
 
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, model_validator
@@ -15,14 +15,14 @@ router = APIRouter(prefix="/{hotel_id}/rooms")
 
 
 class RoomSearchParams(BaseModel):
-    date_from: date | None = None
-    date_to: date | None = None
+    date_from: date
+    date_to: date
 
 
 class ValidatedRoomSearchParams(RoomSearchParams):
     @model_validator(mode="after")
     def validate_date_range(self) -> Self:
-        if self.date_from and self.date_to and self.date_from > self.date_to:
+        if self.date_from > self.date_to:
             raise create_custom_error(
                 "date_range_invalid",
                 "Start date can't be greater than end date",
@@ -33,7 +33,7 @@ class ValidatedRoomSearchParams(RoomSearchParams):
 @router.get("", response_model=list[RoomWithRoomsLeftOut])
 async def get_rooms(
     hotel_id: int, params: Annotated[RoomSearchParams, Depends()]
-) -> list[dict]:
+) -> Sequence[dict]:
     with raise_request_validation_error("query"):
         ValidatedRoomSearchParams.model_validate(params.model_dump())
 
@@ -41,4 +41,8 @@ async def get_rooms(
     if not hotel:
         raise hotel_not_found
 
-    return await RoomsRepo.get_all_with_rooms_left(RoomModel.hotel_id == hotel_id)
+    return await RoomsRepo.get_all_with_rooms_left(
+        RoomModel.hotel_id == hotel_id,
+        date_from=params.date_from,
+        date_to=params.date_to,
+    )

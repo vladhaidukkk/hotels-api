@@ -1,6 +1,6 @@
 from datetime import date
 
-from sqlalchemy import and_, func, insert, or_, select
+from sqlalchemy import and_, func, or_, select
 
 from app.bookings.model import BookingModel
 from app.db.core import session_factory
