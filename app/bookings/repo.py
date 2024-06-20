@@ -17,13 +17,13 @@ class BookingsRepo(RepoBase[BookingModel]):
 
         WITH room_bookings AS (
             SELECT * FROM bookings
-            WHERE room_id = 1 AND
-                  (date_from <= '2024-05-05' AND '2024-05-05' <= date_to) OR
-                  (date_from <= '2024-05-06' AND '2024-05-06' <= date_to)
+            WHERE room_id = :room_id AND
+                  (date_from <= :date_from AND :date_from <= date_to) OR
+                  (date_from <= :date_to AND :date_to <= date_to)
         )
         SELECT rooms.quantity - COUNT(room_bookings.room_id) FROM rooms
         LEFT JOIN room_bookings ON room_bookings.room_id = rooms.id
-        WHERE room_id = 1
+        WHERE room_id = :room_id
         GROUP BY rooms.quantity;
 
         """
@@ -58,7 +58,6 @@ class BookingsRepo(RepoBase[BookingModel]):
                 .filter(RoomModel.id == room_id)
                 .group_by(RoomModel.quantity)
             )
-
             rooms_left_result = await session.execute(rooms_left_query)
             rooms_left: int = rooms_left_result.scalar()
 

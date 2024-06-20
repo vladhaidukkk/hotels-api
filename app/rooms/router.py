@@ -2,12 +2,11 @@ from typing import Sequence
 
 from fastapi import APIRouter
 
-from app.validation.date_range import DateRangeQueryParams
 from app.exceptions import hotel_not_found
 from app.hotels.repo import HotelsRepo
-from app.rooms.model import RoomModel
 from app.rooms.repo import RoomsRepo
 from app.rooms.schemas import RoomWithRoomsLeftOut
+from app.validation.date_range import DateRangeQueryParams
 
 router = APIRouter(prefix="/{hotel_id}/rooms")
 
@@ -18,8 +17,8 @@ async def get_rooms(hotel_id: int, date_range: DateRangeQueryParams) -> Sequence
     if not hotel:
         raise hotel_not_found
 
-    return await RoomsRepo.get_all_with_rooms_left(
-        RoomModel.hotel_id == hotel_id,
+    return await RoomsRepo.get_available_hotel_rooms(
+        hotel_id=hotel_id,
         date_from=date_range.date_from,
         date_to=date_range.date_to,
     )
