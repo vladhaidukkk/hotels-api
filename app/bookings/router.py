@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, status
 
 from app.bookings.model import BookingModel
 from app.bookings.repo import BookingsRepo
 from app.bookings.schemas import BookingIn, BookingOut
 from app.db.core import session_factory
+from app.exceptions import room_not_found, unavailable_room
 from app.rooms.model import RoomModel
 from app.users.deps import CurrentUser
 
@@ -16,17 +17,14 @@ async def get_bookings(user: CurrentUser) -> list[BookingModel]:
 
 
 @router.post("", status_code=status.HTTP_201_CREATED, response_model=BookingOut)
-async def create_booking(data: BookingIn) -> BookingModel:
+async def create_booking(user: CurrentUser, data: BookingIn) -> BookingModel:
     async with session_factory() as session:
         room = await session.get(RoomModel, data.room_id)
         if not room:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Room with this id doesn't exist",
-            )
+            raise room_not_found
 
-        booking = BookingModel(**data.model_dump(), price=room.price)
-        session.add(booking)
-        await session.commit()
+    booking = await BookingsRepo.add(user_id=user.id, **data.model_dump())
+    if not booking:
+        raise unavailable_room
 
     return booking

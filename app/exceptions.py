@@ -13,3 +13,13 @@ invalid_token = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,
     detail="Could not validate credentials",
 )
+
+room_not_found = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND,
+    detail="Room with this ID doesn't exist",
+)
+
+unavailable_room = HTTPException(
+    status_code=status.HTTP_409_CONFLICT,
+    detail="Room with this ID is not available during this period",
+)
