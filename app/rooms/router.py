@@ -11,7 +11,7 @@ from app.rooms.repo import RoomsRepo
 from app.rooms.schemas import RoomWithRoomsLeftOut
 from app.validation import create_custom_error, raise_request_validation_error
 
-router = APIRouter(prefix="/{hotel_id}/rooms", tags=["Rooms"])
+router = APIRouter(prefix="/{hotel_id}/rooms")
 
 
 class RoomSearchParams(BaseModel):
