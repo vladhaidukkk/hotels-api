@@ -6,18 +6,24 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hotels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Hotels</h1>
+<body class="flex flex-col gap-4 p-4">
+    <h1 class="text-6xl">Hotels</h1>
     <hr/>
-    <div>
+    <div class="flex flex-col gap-4">
         {% for hotel in hotels %}
-            <div>
+            <div class="flex gap-2 border rounded shadow overflow-hidden">
                 {% if hotel["image_name"] %}
                     <img src="{{ url_for('static', path='images/' + hotel['image_name']) }}" width="300"/>
                 {% endif %}
-                <h3>{{ hotel["name"] }}</h3>
-                <p>{{ hotel["location"] }}</p>
+                <div class="p-2">
+                    <h3 class="flex gap-2 items-center">
+                        <span class="text-xl font-bold">{{ hotel["name"] }}</span>
+                        <span>({{ hotel["stars"] }})</span>
+                    </h3>
+                    <p>{{ hotel["location"] }}</p>
+                </div>
             </div>
         {% endfor %}
     </div>
