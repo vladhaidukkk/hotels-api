@@ -1,12 +1,15 @@
 from fastapi import APIRouter, FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from app.bookings.router import router as bookings_router
 from app.hotels.router import router as hotels_router
 from app.pages.router import router as pages_router
-from app.users.router import router as users_router
 from app.upload.router import router as upload_router
+from app.users.router import router as users_router
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="app/static"), "static")
 
 api_router = APIRouter(prefix="/api")
 api_router.include_router(users_router)
