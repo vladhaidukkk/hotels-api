@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hotels</title>
+</head>
+<body>
+    <h1>Hotels</h1>
+    <hr/>
+    <div>
+        {% for hotel in hotels %}
+            <div>
+                <h3>{{ hotel["name"] }}</h3>
+                <p>{{ hotel["location"] }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

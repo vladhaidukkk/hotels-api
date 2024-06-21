@@ -1,11 +1,16 @@
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 
 from app.bookings.router import router as bookings_router
 from app.hotels.router import router as hotels_router
+from app.pages.router import router as pages_router
 from app.users.router import router as users_router
 
 app = FastAPI()
 
-app.include_router(users_router)
-app.include_router(hotels_router)
-app.include_router(bookings_router)
+api_router = APIRouter(prefix="/api")
+api_router.include_router(users_router)
+api_router.include_router(hotels_router)
+api_router.include_router(bookings_router)
+
+app.include_router(api_router)
+app.include_router(pages_router)
