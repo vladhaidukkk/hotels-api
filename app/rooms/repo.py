@@ -21,11 +21,11 @@ class RoomsRepo(RepoBase[RoomModel]):
             WHERE (date_from <= :date_from AND :date_from <= date_to) OR
                   (date_from <= :date_to AND :date_to <= date_to)
         )
-        SELECT rooms.*, rooms.quantity - COUNT(room_bookings.id) AS rooms_left
+        SELECT rooms.*, rooms.quantity - COUNT(room_bookings) AS rooms_left
         FROM rooms LEFT JOIN room_bookings ON rooms.id = room_bookings.room_id
         WHERE hotel_id = :hotel_id
         GROUP BY rooms.id
-        HAVING rooms_left > 0;
+        HAVING rooms.quantity - COUNT(room_bookings) > 0;
 
         """
         async with session_factory() as session:
@@ -53,7 +53,7 @@ class RoomsRepo(RepoBase[RoomModel]):
                 .join(
                     room_bookings, room_bookings.c.room_id == RoomModel.id, isouter=True
                 )
-                .filter_by(hotel_id=hotel_id)
+                .filter(RoomModel.hotel_id == hotel_id)
                 .group_by(RoomModel.id)
                 .having(rooms_left_col > 0)
             )
