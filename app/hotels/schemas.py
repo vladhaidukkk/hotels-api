@@ -5,6 +5,7 @@ class HotelBase(BaseModel):
     id: int
     name: str
     location: str
+    image_name: str | None
     stars: int = Field(ge=1, le=5)
     services: list | None
 

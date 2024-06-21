@@ -12,6 +12,7 @@ class HotelModel(ReprMixin, Base):
     id: Mapped[IntPrimaryKey]
     name: Mapped[str]
     location: Mapped[str]
+    image_name: Mapped[str | None]
     stars: Mapped[int] = mapped_column(SmallInteger)
     services: Mapped[list[str]] = mapped_column(JSON)
 
