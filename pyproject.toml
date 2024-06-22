@@ -19,6 +19,7 @@ dependencies = [
   "passlib[bcrypt]",
   "uvicorn",
   "pyjwt",
+  "fastapi-cache2[redis]",
 ]
 
 [project.optional-dependencies]

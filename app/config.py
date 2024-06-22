@@ -1,4 +1,4 @@
-from pydantic import Extra, Field, PostgresDsn, computed_field
+from pydantic import Extra, Field, PostgresDsn, RedisDsn, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -24,6 +24,18 @@ class Settings(BaseSettings):
     jwt_secret_key: str
     jwt_algorithm: str
     jwt_access_token_expire_minutes: int
+
+    redis_host: str
+    redis_port: int
+
+    @computed_field
+    def redis_url(self) -> str:
+        dsn = RedisDsn.build(
+            scheme="redis",
+            host=self.redis_host,
+            port=self.redis_port,
+        )
+        return dsn.unicode_string()
 
     model_config = SettingsConfigDict(env_file=".env", extra=Extra.ignore)
 

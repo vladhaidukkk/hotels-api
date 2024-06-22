@@ -1,6 +1,8 @@
+import asyncio
 from typing import Annotated, Sequence
 
 from fastapi import APIRouter, Query
+from fastapi_cache.decorator import cache
 from sqlalchemy.sql import ColumnExpressionArgument
 
 from app.exceptions import hotel_not_found
@@ -16,11 +18,13 @@ router.include_router(rooms_router)
 
 
 @router.get("", response_model=list[HotelWithRoomDetailsOut])
+@cache(expire=60)
 async def get_hotels(
     location: str,
     date_range: DateRangeQueryParams,
     stars: Annotated[int | None, Query(ge=1, le=5)] = None,
 ) -> Sequence[dict]:
+    await asyncio.sleep(3)
     conditions: list[ColumnExpressionArgument[bool]] = [
         HotelModel.location.icontains(location)
     ]
