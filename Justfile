@@ -36,8 +36,11 @@ serve-dev:
     uvicorn app.main:app --port 8000 --reload
 
 # Start Background Tasks (Celery)
-start-tasks:
+start-celery:
     celery -A app.tasks.celery_app:celery_app worker --loglevel=INFO
+
+start-flower:
+    celery -A app.tasks.celery_app:celery_app flower
 
 # Database Management
 revise msg:
