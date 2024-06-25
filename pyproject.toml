@@ -20,6 +20,9 @@ dependencies = [
   "uvicorn",
   "pyjwt",
   "fastapi-cache2[redis]",
+  "celery",
+  "flower",
+  "pillow",
 ]
 
 [project.optional-dependencies]

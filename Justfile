@@ -35,6 +35,10 @@ run script:
 serve-dev:
     uvicorn app.main:app --port 8000 --reload
 
+# Start Background Tasks (Celery)
+start-tasks:
+    celery -A app.tasks.celery_app:celery_app worker --loglevel=INFO
+
 # Database Management
 revise msg:
     alembic revision --autogenerate -m "{{msg}}"
