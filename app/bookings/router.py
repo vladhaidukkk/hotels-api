@@ -6,6 +6,7 @@ from app.bookings.schemas import BookingIn, BookingOut
 from app.db.core import session_factory
 from app.exceptions import booking_not_found, room_not_found, unavailable_room
 from app.rooms.model import RoomModel
+from app.tasks.tasks import send_booking_confirmation_email
 from app.users.deps import CurrentUser
 
 router = APIRouter(prefix="/bookings", tags=["Bookings"])
@@ -26,6 +27,9 @@ async def create_booking(user: CurrentUser, data: BookingIn) -> BookingModel:
     booking = await BookingsRepo.add(user_id=user.id, **data.model_dump())
     if not booking:
         raise unavailable_room
+
+    booking_dict = BookingOut.model_validate(booking).model_dump()
+    send_booking_confirmation_email.delay(receiver=user.email, booking=booking_dict)
 
     return booking
 

@@ -37,6 +37,14 @@ class Settings(BaseSettings):
         )
         return dsn.unicode_string()
 
+    smtp_host: str
+    smtp_port: int
+    smtp_user: str
+    # Specify password for production. For local development, I'd recommend to proceed without it.
+    smtp_pass: str | None = None
+    # Specify it if you want to hardcode receiver for testing.
+    smtp_receiver: str | None = None
+
     model_config = SettingsConfigDict(env_file=".env", extra=Extra.ignore)
 
 
