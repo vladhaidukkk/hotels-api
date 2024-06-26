@@ -1,11 +1,15 @@
 from datetime import date
+from typing import TYPE_CHECKING
 
 from sqlalchemy import CheckConstraint, Computed, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.core import Base
 from app.db.mixins import ReprMixin
 from app.db.types import CreatedAt, IntPrimaryKey, UpdatedAt
+
+if TYPE_CHECKING:
+    from app.users.model import UserModel
 
 
 class BookingModel(ReprMixin, Base):
@@ -22,7 +26,12 @@ class BookingModel(ReprMixin, Base):
     created_at: Mapped[CreatedAt]
     updated_at: Mapped[UpdatedAt]
 
+    user: Mapped["UserModel"] = relationship(back_populates="bookings")
+
     __table_args__ = (
         CheckConstraint("price >= 1", name="bookings_price_positive_check"),
         CheckConstraint("date_from < date_to", name="bookings_date_range_check"),
     )
+
+    def __str__(self) -> str:
+        return f"Booking #{self.id}"
