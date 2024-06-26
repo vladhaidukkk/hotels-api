@@ -4,9 +4,9 @@ from datetime import UTC, datetime, timedelta
 from app.bookings.model import BookingModel
 from app.bookings.repo import BookingsRepo
 from app.bookings.schemas import Booking
-from app.tasks.celery_app import celery_app
 from app.tasks.email_service import send_email_message
 from app.tasks.email_templates import create_booking_reminder_message
+from app.tasks.worker import worker
 
 # Required for ORM relationships to work.
 # isort: split
@@ -23,6 +23,6 @@ async def _send_booking_reminder_email(days: int):
         send_email_message(message)
 
 
-@celery_app.task(name="send_booking_reminder_email")
+@worker.task(name="send_booking_reminder_email")
 def send_booking_reminder_email(days: int):
     asyncio.run(_send_booking_reminder_email(days=days))

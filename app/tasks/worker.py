@@ -3,13 +3,13 @@ from celery.schedules import crontab
 
 from app.config import settings
 
-celery_app = Celery(
+worker = Celery(
     "tasks",
     broker=settings.redis_url,
     include=["app.tasks.tasks", "app.tasks.scheduled"],
 )
 
-celery_app.conf.beat_schedule = {
+worker.conf.beat_schedule = {
     "booking_reminder_1_day": {
         "task": "send_booking_reminder_email",
         "schedule": crontab(hour="9", minute="0"),
@@ -22,4 +22,4 @@ celery_app.conf.beat_schedule = {
     },
 }
 
-celery_app.conf.broker_connection_retry_on_startup = True
+worker.conf.broker_connection_retry_on_startup = True

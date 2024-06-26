@@ -37,13 +37,13 @@ serve-dev:
 
 # Start Background Tasks (Celery)
 start-worker:
-    NULL_POOL=1 celery -A app.tasks.celery_app:celery_app worker --loglevel=INFO
+    NULL_POOL=1 celery -A app.tasks.worker:worker worker --loglevel=INFO
 
 start-beat:
-    celery -A app.tasks.celery_app:celery_app beat --loglevel=INFO
+    celery -A app.tasks.worker:worker beat --loglevel=INFO
 
 start-flower:
-    celery -A app.tasks.celery_app:celery_app flower
+    celery -A app.tasks.worker:worker flower
 
 # Database Management
 revise msg:
