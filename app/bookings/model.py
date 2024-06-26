@@ -9,6 +9,7 @@ from app.db.mixins import ReprMixin
 from app.db.types import CreatedAt, IntPrimaryKey, UpdatedAt
 
 if TYPE_CHECKING:
+    from app.rooms.model import RoomModel
     from app.users.model import UserModel
 
 
@@ -27,6 +28,7 @@ class BookingModel(ReprMixin, Base):
     updated_at: Mapped[UpdatedAt]
 
     user: Mapped["UserModel"] = relationship(back_populates="bookings")
+    room: Mapped["RoomModel"] = relationship(back_populates="bookings")
 
     __table_args__ = (
         CheckConstraint("price >= 1", name="bookings_price_positive_check"),
