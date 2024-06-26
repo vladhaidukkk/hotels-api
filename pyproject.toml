@@ -23,6 +23,7 @@ dependencies = [
   "celery",
   "flower",
   "pillow",
+  "sqladmin",
 ]
 
 [project.optional-dependencies]

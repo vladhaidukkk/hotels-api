@@ -6,9 +6,12 @@ from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
+from sqladmin import Admin
 
+from app.admin.views import UserView
 from app.bookings.router import router as bookings_router
 from app.config import settings
+from app.db.core import engine
 from app.hotels.router import router as hotels_router
 from app.pages.router import router as pages_router
 from app.upload.router import router as upload_router
@@ -34,3 +37,6 @@ api_router.include_router(bookings_router)
 app.include_router(api_router)
 app.include_router(pages_router)
 app.include_router(upload_router)
+
+admin = Admin(app, engine)
+admin.add_view(UserView)

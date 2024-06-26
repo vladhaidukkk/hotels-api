@@ -75,7 +75,9 @@ idna==3.7
     #   httpx
     #   yarl
 jinja2==3.1.4
-    # via fastapi
+    # via
+    #   fastapi
+    #   sqladmin
 kombu==5.3.7
     # via celery
 mako==1.3.5
@@ -86,6 +88,7 @@ markupsafe==2.1.5
     # via
     #   jinja2
     #   mako
+    #   wtforms
 mdurl==0.1.2
     # via markdown-it-py
 multidict==6.0.5
@@ -111,7 +114,7 @@ pydantic==2.7.4
     #   pydantic-settings
 pydantic-core==2.18.4
     # via pydantic
-pydantic-settings==2.3.3
+pydantic-settings==2.3.4
 pygments==2.18.0
     # via rich
 pyjwt==2.8.0
@@ -125,7 +128,9 @@ python-dotenv==1.0.1
     #   pydantic-settings
     #   uvicorn
 python-multipart==0.0.9
-    # via fastapi
+    # via
+    #   fastapi
+    #   sqladmin
 pytz==2024.1
     # via flower
 pyyaml==6.0.1
@@ -142,10 +147,15 @@ sniffio==1.3.1
     # via
     #   anyio
     #   httpx
+sqladmin==0.17.0
 sqlalchemy==2.0.31
-    # via alembic
+    # via
+    #   alembic
+    #   sqladmin
 starlette==0.37.2
-    # via fastapi
+    # via
+    #   fastapi
+    #   sqladmin
 time-machine==2.14.1
     # via pendulum
 tornado==6.4.1
@@ -184,5 +194,7 @@ wcwidth==0.2.13
     # via prompt-toolkit
 websockets==12.0
     # via uvicorn
+wtforms==3.1.2
+    # via sqladmin
 yarl==1.9.4
     # via aiohttp
