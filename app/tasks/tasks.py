@@ -1,7 +1,6 @@
 from pathlib import Path
 
 from PIL import Image
-from pydantic import EmailStr
 
 from app.tasks.celery_app import celery_app
 from app.tasks.email_service import send_email_message
@@ -18,10 +17,6 @@ def process_image(path: str) -> None:
 
 
 @celery_app.task
-def send_booking_confirmation_email(
-    # EmailStr is just a type. Pydantic won't validate it as it's not a FastAPI endpoint.
-    receiver: EmailStr,
-    booking: dict,
-) -> None:
-    message = create_booking_confirmation_message(receiver=receiver, booking=booking)
+def send_booking_confirmation_email(booking: dict) -> None:
+    message = create_booking_confirmation_message(booking=booking)
     send_email_message(message)

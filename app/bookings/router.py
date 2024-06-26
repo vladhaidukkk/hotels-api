@@ -4,7 +4,7 @@ from fastapi import APIRouter, status
 
 from app.bookings.model import BookingModel
 from app.bookings.repo import BookingsRepo
-from app.bookings.schemas import BookingIn, BookingOut
+from app.bookings.schemas import Booking, BookingIn, BookingOut
 from app.db.core import session_factory
 from app.exceptions import booking_not_found, room_not_found, unavailable_room
 from app.rooms.model import RoomModel
@@ -30,8 +30,10 @@ async def create_booking(user: CurrentUser, data: BookingIn) -> BookingModel:
     if not booking:
         raise unavailable_room
 
-    booking_dict = BookingOut.model_validate(booking).model_dump()
-    send_booking_confirmation_email.delay(receiver=user.email, booking=booking_dict)
+    # Get it again to have the related user.
+    booking = await BookingsRepo.get_by_id(booking.id)
+    booking_dict = Booking.model_validate(booking).model_dump()
+    send_booking_confirmation_email.delay(booking=booking_dict)
 
     return booking
 

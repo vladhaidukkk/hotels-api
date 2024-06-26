@@ -1,7 +1,5 @@
 from email.message import EmailMessage
 
-from pydantic import EmailStr
-
 from app.config import settings
 
 
@@ -16,11 +14,9 @@ def _generate_email_message(
     return message
 
 
-def create_booking_confirmation_message(
-    receiver: EmailStr, booking: dict
-) -> EmailMessage:
+def create_booking_confirmation_message(booking: dict) -> EmailMessage:
     return _generate_email_message(
-        receiver=receiver,
+        receiver=booking["user"]["email"],
         subject="Booking confirmation",
         html_content=(
             f"""
@@ -32,12 +28,10 @@ def create_booking_confirmation_message(
     )
 
 
-def create_booking_reminder_message(
-    days: int, receiver: str, booking: dict
-) -> EmailMessage:
+def create_booking_reminder_message(days: int, booking: dict) -> EmailMessage:
     days_str = f"{days} day" if days == 1 else f"{days} days"
     return _generate_email_message(
-        receiver=receiver,
+        receiver=booking["user"]["email"],
         subject=f"{days_str} left until check-in",
         html_content=(
             f"""
