@@ -36,8 +36,11 @@ serve-dev:
     uvicorn app.main:app --port 8000 --reload
 
 # Start Background Tasks (Celery)
-start-celery:
-    celery -A app.tasks.celery_app:celery_app worker --loglevel=INFO
+start-worker:
+    NULL_POOL=1 celery -A app.tasks.celery_app:celery_app worker --loglevel=INFO
+
+start-beat:
+    celery -A app.tasks.celery_app:celery_app beat --loglevel=INFO
 
 start-flower:
     celery -A app.tasks.celery_app:celery_app flower

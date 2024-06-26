@@ -21,6 +21,9 @@ class Settings(BaseSettings):
         )
         return dsn.unicode_string()
 
+    # For Celery set it to True, but only for Celery.
+    null_pool: bool = False
+
     jwt_secret_key: str
     jwt_algorithm: str
     jwt_access_token_expire_minutes: int
