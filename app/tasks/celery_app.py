@@ -21,3 +21,5 @@ celery_app.conf.beat_schedule = {
         "args": (3,),
     },
 }
+
+celery_app.conf.broker_connection_retry_on_startup = True
