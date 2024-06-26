@@ -1,6 +1,8 @@
 from datetime import date
+from typing import Sequence
 
-from sqlalchemy import and_, func, or_, select
+from sqlalchemy import ColumnExpressionArgument, and_, func, or_, select
+from sqlalchemy.orm import joinedload
 
 from app.bookings.model import BookingModel
 from app.db.core import session_factory
@@ -9,6 +11,14 @@ from app.rooms.model import RoomModel
 
 
 class BookingsRepo(RepoBase[BookingModel]):
+    @classmethod
+    async def get_all(
+        cls, *filters: ColumnExpressionArgument[bool]
+    ) -> Sequence[BookingModel]:
+        return await super().get_all(
+            options=[joinedload(BookingModel.user)], filters=filters
+        )
+
     @classmethod
     async def add(
         cls, user_id: int, room_id: int, date_from: date, date_to: date

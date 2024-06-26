@@ -1,6 +1,7 @@
 from typing import Sequence, Type
 
 from sqlalchemy import ColumnExpressionArgument, delete, insert, select
+from sqlalchemy.sql.base import ExecutableOption
 
 from app.db.core import Base, session_factory
 
@@ -27,9 +28,18 @@ class RepoBase[T: Base]:
             return result.scalars().one_or_none()
 
     @classmethod
-    async def get_all(cls, *filters: ColumnExpressionArgument[bool]) -> Sequence[T]:
+    async def get_all(
+        cls,
+        *,
+        options: Sequence[ExecutableOption] | None = None,
+        filters: Sequence[ColumnExpressionArgument[bool]] | None = None,
+    ) -> Sequence[T]:
         async with session_factory() as session:
-            query = select(cls.model()).filter(*filters)
+            query = select(cls.model())
+            if options:
+                query = query.options(*options)
+            if filters:
+                query = query.filter(*filters)
             result = await session.execute(query)
             return result.scalars().all()
 

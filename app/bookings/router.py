@@ -1,3 +1,5 @@
+from typing import Sequence
+
 from fastapi import APIRouter, status
 
 from app.bookings.model import BookingModel
@@ -13,7 +15,7 @@ router = APIRouter(prefix="/bookings", tags=["Bookings"])
 
 
 @router.get("", response_model=list[BookingOut])
-async def get_bookings(user: CurrentUser) -> list[BookingModel]:
+async def get_bookings(user: CurrentUser) -> Sequence[BookingModel]:
     return await BookingsRepo.get_all(BookingModel.user_id == user.id)
 
 
