@@ -12,6 +12,10 @@ from app.rooms.model import RoomModel
 
 class BookingsRepo(RepoBase[BookingModel]):
     @classmethod
+    async def get_by_id(cls, id_: int) -> BookingModel | None:
+        return await super().get_by_id(id_, options=[joinedload(BookingModel.user)])
+
+    @classmethod
     async def get_all(
         cls, *filters: ColumnExpressionArgument[bool]
     ) -> Sequence[BookingModel]:

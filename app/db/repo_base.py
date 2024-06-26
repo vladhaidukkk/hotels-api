@@ -12,9 +12,14 @@ class RepoBase[T: Base]:
         return cls.__orig_bases__[0].__args__[0]  # type: ignore
 
     @classmethod
-    async def get_by_id(cls, id_: int) -> T | None:
+    async def get_by_id(
+        cls, id_: int, *, options: Sequence[ExecutableOption] | None = None
+    ) -> T | None:
         async with session_factory() as session:
-            query = select(cls.model()).filter_by(id=id_)
+            query = select(cls.model())
+            if options:
+                query = query.options(*options)
+            query = query.filter_by(id=id_)
             result = await session.execute(query)
             return result.scalars().one_or_none()
 
