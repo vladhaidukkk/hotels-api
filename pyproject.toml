@@ -37,6 +37,8 @@ dev = [
   "autoflake",
   "bandit",
   "pytest",
+  "pytest-env",
+  "pytest-asyncio",
 ]
 
 [tool.isort]
@@ -67,3 +69,5 @@ skips = ["B101"]
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+env = ["MODE=TEST"]
+asyncio_mode = "auto"

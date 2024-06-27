@@ -1,3 +1,3 @@
-import os
+from app.config import mode
 
-os.environ["MODE"] = "TEST"
+assert mode == "TEST"
