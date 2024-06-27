@@ -20,3 +20,8 @@ If you use the [direnv](https://direnv.net/) utility to load `.env` variables in
 it during testing. This is because [pydantic-settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)
 prioritizes environment variables first, and only then loads variables from the env files (in our case
 from `.env.test`).
+
+## Testing in PyCharm
+
+To ensure that `pydantic-settings` can locate the `.env.test` file in the root directory during tests run from the IDE,
+you need to specify the path to it in the **Run Configuration**.
