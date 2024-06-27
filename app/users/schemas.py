@@ -2,6 +2,8 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, EmailStr, SecretStr
 
+from app.users.enums import Role
+
 
 class UserAuth(BaseModel):
     email: EmailStr
@@ -12,6 +14,7 @@ class User(BaseModel):
     id: int
     email: EmailStr
     hashed_password: str
+    role: Role
     created_at: datetime
     updated_at: datetime
 
@@ -21,5 +24,6 @@ class User(BaseModel):
 class UserOut(BaseModel):
     id: int
     email: EmailStr
+    role: Role
     created_at: datetime
     updated_at: datetime
