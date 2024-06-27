@@ -13,3 +13,10 @@ For more details, see the [PostgreSQL documentation](https://www.postgresql.org/
 ## SMTP Server
 
 Use [MailHog](https://github.com/mailhog/MailHog) to start a local SMTP server and test email functionality.
+
+## Direnv
+
+If you use the [direnv](https://direnv.net/) utility to load `.env` variables into your environment, remember to disable
+it during testing. This is because [pydantic-settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)
+prioritizes environment variables first, and only then loads variables from the env files (in our case
+from `.env.test`).
