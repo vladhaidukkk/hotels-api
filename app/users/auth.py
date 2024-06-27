@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
 
 import jwt
+from jwt import InvalidTokenError
 from passlib.context import CryptContext
 from pydantic import EmailStr, SecretStr
 
@@ -41,3 +42,24 @@ async def authenticate_user(email: EmailStr, password: SecretStr) -> UserModel |
         return None
 
     return existing_user
+
+
+async def authorize_user(access_token: str) -> UserModel | None:
+    try:
+        payload = jwt.decode(
+            access_token, key=settings.jwt_secret_key, algorithms=settings.jwt_algorithm
+        )
+    except InvalidTokenError:
+        return None
+
+    # The next two checks are generally redundant, as we don't need to worry about
+    # someone sending a self-made token.
+    user_id = payload.get("sub")
+    if not user_id:
+        return None
+
+    user = await UsersRepo.get_by_id(user_id)
+    if not user:
+        return None
+
+    return user
