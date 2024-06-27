@@ -17,14 +17,14 @@ sync-dev:
 
 # Code Formatting & Linting
 fmt:
-    -isort app
-    -black app
-    -docformatter app
+    -isort app tests
+    -black app tests
+    -docformatter app tests
 
 lint:
-    -pyright app
-    -flake8 app
-    -autoflake app
+    -pyright app tests
+    -flake8 app tests
+    -autoflake app tests
     -bandit -c pyproject.toml -q -r app
 
 # Run Scripts

@@ -1,4 +1,6 @@
-from pydantic import Extra, Field, PostgresDsn, RedisDsn, computed_field
+import os
+
+from pydantic import Field, PostgresDsn, RedisDsn, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -48,7 +50,9 @@ class Settings(BaseSettings):
     # Specify it if you want to hardcode receiver for testing.
     smtp_receiver: str | None = None
 
-    model_config = SettingsConfigDict(env_file=".env", extra=Extra.ignore)
+    model_config = SettingsConfigDict(extra="ignore")
 
 
-settings = Settings()  # type: ignore
+mode = os.getenv("MODE").upper()
+env_file = ".env.test" if mode == "TEST" else ".env"
+settings = Settings(_env_file=env_file)  # type: ignore

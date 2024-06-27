@@ -84,6 +84,8 @@ idna==3.7
     #   email-validator
     #   httpx
     #   yarl
+iniconfig==2.0.0
+    # via pytest
 isort==5.13.2
 itsdangerous==2.2.0
     # via sqladmin
@@ -117,7 +119,9 @@ nodeenv==1.9.1
 orjson==3.10.5
     # via fastapi
 packaging==24.1
-    # via black
+    # via
+    #   black
+    #   pytest
 passlib==1.7.4
 pathspec==0.12.1
     # via black
@@ -128,6 +132,8 @@ pendulum==3.0.0
 pillow==10.3.0
 platformdirs==4.2.2
     # via black
+pluggy==1.5.0
+    # via pytest
 prometheus-client==0.20.0
     # via flower
 prompt-toolkit==3.0.47
@@ -152,6 +158,7 @@ pygments==2.18.0
     # via rich
 pyjwt==2.8.0
 pyright==1.1.369
+pytest==8.2.2
 python-dateutil==2.9.0.post0
     # via
     #   celery

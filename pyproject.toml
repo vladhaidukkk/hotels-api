@@ -36,6 +36,7 @@ dev = [
   "flake8-pyproject",
   "autoflake",
   "bandit",
+  "pytest",
 ]
 
 [tool.isort]
@@ -62,3 +63,7 @@ ignore-init-module-imports = true
 
 [tool.bandit]
 skips = ["B101"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
