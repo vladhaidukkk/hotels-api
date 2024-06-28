@@ -4,7 +4,7 @@ import pytest
 
 from app.users.enums import Role
 from app.users.repo import UsersRepo
-from tests.assertion_helpers.models import assert_user
+from tests.assertion_helpers.user import assert_user_model
 
 
 @pytest.mark.db
@@ -17,7 +17,7 @@ async def test_add_user():
         email=email, hashed_password=hashed_password, role=role
     )
 
-    assert_user(
+    assert_user_model(
         result,
         {
             "email": "dd",
@@ -34,7 +34,7 @@ async def test_add_user_default_role():
 
     result = await UsersRepo.add(email=email, hashed_password=hashed_password)
 
-    assert_user(
+    assert_user_model(
         result,
         {
             "email": email,
