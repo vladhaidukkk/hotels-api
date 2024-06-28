@@ -69,5 +69,7 @@ skips = ["B101"]
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+addopts = "--strict-markers"
+markers = ["db: mark a test that works with the database."]
 env = ["MODE=TEST"]
 asyncio_mode = "auto"
