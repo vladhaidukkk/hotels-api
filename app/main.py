@@ -30,7 +30,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
-api_router = APIRouter(prefix="/api")
+api_router = APIRouter(prefix="/api/v1")
 api_router.include_router(users_router)
 api_router.include_router(hotels_router)
 api_router.include_router(bookings_router)

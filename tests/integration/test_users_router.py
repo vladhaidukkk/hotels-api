@@ -10,7 +10,7 @@ def test_register_user(client):
     password = "password"
 
     response = client.post(
-        "/api/users/register",
+        "/api/v1/users/register",
         json={"email": email, "password": password},
     )
 
