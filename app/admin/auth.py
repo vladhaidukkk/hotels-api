@@ -40,4 +40,4 @@ class AdminAuthBackend(AuthenticationBackend):
         return True
 
 
-auth_backend = AdminAuthBackend(secret_key=settings.jwt_secret_key)
+auth_backend = AdminAuthBackend(secret_key=settings.app.jwt.secret_key)

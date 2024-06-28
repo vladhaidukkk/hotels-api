@@ -5,7 +5,7 @@ from app.config import settings
 
 worker = Celery(
     "tasks",
-    broker=settings.redis_url,
+    broker=settings.app.redis.url,
     include=["app.tasks.tasks", "app.tasks.scheduled"],
 )
 

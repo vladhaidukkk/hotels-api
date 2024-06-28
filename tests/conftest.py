@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy import delete
 
-from app.config import mode
+from app.config import settings
 from app.db.core import Base, engine
 
 # isort: split
@@ -10,7 +10,7 @@ from app.hotels.model import HotelModel  # noqa
 from app.rooms.model import RoomModel  # noqa
 from app.users.model import UserModel  # noqa
 
-assert mode == "TEST"
+assert settings.env.mode == "test"
 
 
 @pytest.fixture(scope="session", autouse=True)

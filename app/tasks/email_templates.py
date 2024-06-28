@@ -7,8 +7,8 @@ def _generate_email_message(
     receiver: str, subject: str, html_content: str
 ) -> EmailMessage:
     message = EmailMessage()
-    message["From"] = settings.smtp_user
-    message["To"] = settings.smtp_receiver or receiver
+    message["From"] = settings.app.smtp.user
+    message["To"] = settings.app.smtp.receiver or receiver
     message["Subject"] = subject
     message.set_content(html_content, subtype="html")
     return message

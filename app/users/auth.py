@@ -23,10 +23,12 @@ def verify_secret(secret: str, hashed: str) -> bool:
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
     to_encode["exp"] = datetime.now(timezone.utc) + timedelta(
-        minutes=settings.jwt_access_token_expire_minutes
+        minutes=settings.app.jwt.access_token_exp_mins
     )
     return jwt.encode(
-        payload=to_encode, key=settings.jwt_secret_key, algorithm=settings.jwt_algorithm
+        payload=to_encode,
+        key=settings.app.jwt.secret_key,
+        algorithm=settings.app.jwt.algorithm,
     )
 
 
@@ -47,7 +49,9 @@ async def authenticate_user(email: EmailStr, password: SecretStr) -> UserModel |
 async def authorize_user(access_token: str) -> UserModel | None:
     try:
         payload = jwt.decode(
-            access_token, key=settings.jwt_secret_key, algorithms=settings.jwt_algorithm
+            access_token,
+            key=settings.app.jwt.secret_key,
+            algorithms=settings.app.jwt.algorithm,
         )
     except InvalidTokenError:
         return None

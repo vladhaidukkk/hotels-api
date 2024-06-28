@@ -71,5 +71,5 @@ pythonpath = ["."]
 testpaths = ["tests"]
 addopts = "--strict-markers"
 markers = ["db: mark a test that works with the database."]
-env = ["MODE=TEST"]
+env = ["MODE=test"]
 asyncio_mode = "auto"

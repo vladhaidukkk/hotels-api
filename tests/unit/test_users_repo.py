@@ -1,5 +1,3 @@
-from datetime import date
-
 import pytest
 
 from app.users.enums import Role
@@ -20,7 +18,7 @@ async def test_add_user():
     assert_user_model(
         result,
         {
-            "email": "dd",
+            "email": email,
             "hashed_password": hashed_password,
             "role": role,
         },
