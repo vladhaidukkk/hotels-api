@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from typing import AsyncIterator
 
+import sentry_sdk
 from fastapi import APIRouter, FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
@@ -17,6 +18,13 @@ from app.hotels.router import router as hotels_router
 from app.pages.router import router as pages_router
 from app.upload.router import router as upload_router
 from app.users.router import router as users_router
+
+if settings.app.sentry.dsn and settings.app.sentry.enabled:
+    sentry_sdk.init(
+        dsn=settings.app.sentry.dsn,
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+    )
 
 
 @asynccontextmanager

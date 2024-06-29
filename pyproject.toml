@@ -24,6 +24,7 @@ dependencies = [
   "flower",
   "pillow",
   "sqladmin[full]",
+  "sentry-sdk[fastapi]",
 ]
 
 [project.optional-dependencies]

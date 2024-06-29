@@ -55,6 +55,11 @@ class SmtpSettings(BaseModel):
     receiver: str | None = None
 
 
+class SentrySettings(BaseModel):
+    dsn: str | None = None
+    enabled: bool = False
+
+
 class JwtSettings(BaseModel):
     secret_key: str
     algorithm: str
@@ -65,6 +70,7 @@ class AppSettings(BaseSettings):
     db: DatabaseSettings
     redis: RedisSettings
     smtp: SmtpSettings
+    sentry: SentrySettings
     jwt: JwtSettings
 
     model_config = SettingsConfigDict(

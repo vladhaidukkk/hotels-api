@@ -30,6 +30,7 @@ certifi==2024.6.2
     # via
     #   httpcore
     #   httpx
+    #   sentry-sdk
 charset-normalizer==3.3.2
     # via docformatter
 click==8.1.7
@@ -53,7 +54,9 @@ docformatter==1.7.5
 email-validator==2.2.0
     # via fastapi
 fastapi==0.111.0
-    # via fastapi-cache2
+    # via
+    #   fastapi-cache2
+    #   sentry-sdk
 fastapi-cache2==0.2.1
 fastapi-cli==0.0.4
     # via fastapi
@@ -189,6 +192,7 @@ rich==13.7.1
     # via
     #   bandit
     #   typer
+sentry-sdk==2.7.1
 shellingham==1.5.4
     # via typer
 six==1.16.0
@@ -231,6 +235,8 @@ ujson==5.10.0
     # via fastapi
 untokenize==0.1.1
     # via docformatter
+urllib3==2.2.2
+    # via sentry-sdk
 uvicorn==0.30.1
     # via
     #   fastapi
