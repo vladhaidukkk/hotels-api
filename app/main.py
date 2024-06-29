@@ -1,8 +1,9 @@
+import time
 from contextlib import asynccontextmanager
 from typing import AsyncIterator
 
 import sentry_sdk
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
@@ -38,6 +39,36 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 
 
 app = FastAPI(lifespan=lifespan)
+
+
+@app.middleware("http")
+async def log_request_context(request: Request, call_next):
+    start_time = time.perf_counter()
+    logger.info(
+        "start processing %s %s",
+        request.method,
+        request.url.path,
+        extra={
+            "method": request.method,
+            "url_path": request.url.path,
+        },
+    )
+    response = await call_next(request)
+    process_time = time.perf_counter() - start_time
+    logger.info(
+        "finish processing %s %s %s",
+        request.method,
+        request.url.path,
+        response.status_code,
+        extra={
+            "method": request.method,
+            "url_path": request.url.path,
+            "status_code": response.status_code,
+            "process_time": process_time,
+        },
+    )
+    return response
+
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
