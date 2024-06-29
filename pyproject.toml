@@ -25,6 +25,7 @@ dependencies = [
   "pillow",
   "sqladmin[full]",
   "sentry-sdk[fastapi]",
+  "colorlog",
 ]
 
 [project.optional-dependencies]
