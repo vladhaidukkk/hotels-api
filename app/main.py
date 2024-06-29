@@ -1,3 +1,4 @@
+import logging
 from contextlib import asynccontextmanager
 from typing import AsyncIterator
 
@@ -19,6 +20,12 @@ from app.pages.router import router as pages_router
 from app.upload.router import router as upload_router
 from app.users.router import router as users_router
 
+logging.basicConfig(
+    level=logging.DEBUG if settings.env.debug else logging.INFO,
+    format="[%(asctime)s] [%(levelname)s] - %(message)s",
+    datefmt="%Y-%m-%dT%H:%M:%S",
+)
+
 if settings.app.sentry.dsn and settings.app.sentry.enabled:
     sentry_sdk.init(
         dsn=settings.app.sentry.dsn,
@@ -29,9 +36,11 @@ if settings.app.sentry.dsn and settings.app.sentry.enabled:
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    logging.info("lifespan startup")
     redis = aioredis.from_url(settings.app.redis.url)
     FastAPICache.init(RedisBackend(redis), prefix="cache")
     yield
+    logging.info("lifespan shutdown")
 
 
 app = FastAPI(lifespan=lifespan)

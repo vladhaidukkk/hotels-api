@@ -21,7 +21,7 @@ class DatabaseSettings(BaseModel):
     name: str
 
     @computed_field
-    def url(self) -> PostgresDsn:
+    def url(self) -> str:
         return PostgresDsn.build(
             scheme="postgresql+asyncpg",
             username=self.user,
@@ -37,7 +37,7 @@ class RedisSettings(BaseModel):
     port: int = Field(ge=1, le=65535)
 
     @computed_field
-    def url(self) -> RedisDsn:
+    def url(self) -> str:
         return RedisDsn.build(
             scheme="redis",
             host=self.host,
@@ -91,4 +91,3 @@ class Settings:
 
 
 settings = Settings()
-print(settings.env, settings.app)
