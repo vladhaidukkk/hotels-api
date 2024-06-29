@@ -1,10 +1,16 @@
 import logging
+import time
 
 from app.config import settings
 
 logger = logging.getLogger()
 
-formatter = logging.Formatter(
+
+class UTCFormatter(logging.Formatter):
+    converter = time.gmtime
+
+
+formatter = UTCFormatter(
     "[%(asctime)s] [%(levelname)s] - %(message)s", datefmt="%Y-%m-%dT%H:%M:%S"
 )
 
