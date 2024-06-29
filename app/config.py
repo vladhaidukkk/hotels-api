@@ -60,6 +60,11 @@ class SentrySettings(BaseModel):
     enabled: bool = False
 
 
+class BetterStackSettings(BaseModel):
+    token: str | None = None
+    enabled: bool = False
+
+
 class JwtSettings(BaseModel):
     secret_key: str
     algorithm: str
@@ -70,7 +75,10 @@ class AppSettings(BaseSettings):
     db: DatabaseSettings
     redis: RedisSettings
     smtp: SmtpSettings
+
     sentry: SentrySettings
+    bs: BetterStackSettings
+
     jwt: JwtSettings
 
     model_config = SettingsConfigDict(

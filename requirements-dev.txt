@@ -30,9 +30,12 @@ certifi==2024.6.2
     # via
     #   httpcore
     #   httpx
+    #   requests
     #   sentry-sdk
 charset-normalizer==3.3.2
-    # via docformatter
+    # via
+    #   docformatter
+    #   requests
 click==8.1.7
     # via
     #   black
@@ -87,6 +90,7 @@ idna==3.7
     #   anyio
     #   email-validator
     #   httpx
+    #   requests
     #   yarl
 iniconfig==2.0.0
     # via pytest
@@ -99,6 +103,7 @@ jinja2==3.1.4
     #   sqladmin
 kombu==5.3.7
     # via celery
+logtail-python==0.3.0
 mako==1.3.5
     # via alembic
 markdown-it-py==3.0.0
@@ -112,6 +117,8 @@ mccabe==0.7.0
     # via flake8
 mdurl==0.1.2
     # via markdown-it-py
+msgpack==1.0.8
+    # via logtail-python
 multidict==6.0.5
     # via
     #   aiohttp
@@ -189,6 +196,8 @@ pyyaml==6.0.1
     #   uvicorn
 redis==4.6.0
     # via fastapi-cache2
+requests==2.32.3
+    # via logtail-python
 rich==13.7.1
     # via
     #   bandit
@@ -237,7 +246,9 @@ ujson==5.10.0
 untokenize==0.1.1
     # via docformatter
 urllib3==2.2.2
-    # via sentry-sdk
+    # via
+    #   requests
+    #   sentry-sdk
 uvicorn==0.30.1
     # via
     #   fastapi

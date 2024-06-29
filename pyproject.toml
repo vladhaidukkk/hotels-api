@@ -26,6 +26,7 @@ dependencies = [
   "sqladmin[full]",
   "sentry-sdk[fastapi]",
   "colorlog",
+  "logtail-python",
 ]
 
 [project.optional-dependencies]
