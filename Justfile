@@ -54,3 +54,10 @@ migrate target="head":
 
 revert target="-1":
     alembic downgrade {{target}}
+
+# Docker Commands
+build-img:
+    docker build -t hotels-api .
+
+run-ctr:
+    docker run -d -p 8000:80 hotels-api
