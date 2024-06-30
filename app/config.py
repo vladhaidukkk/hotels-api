@@ -90,12 +90,9 @@ class AppSettings(BaseSettings):
 
 class Settings:
     def __init__(self) -> None:
-        self._env_file = ".env"
-        self.env = EnvSettings(_env_file=self._env_file)
-        self._app_env_prefix = "test__app__" if self.env.mode == "test" else "app__"
-        self.app = AppSettings(
-            _env_file=self._env_file, _env_prefix=self._app_env_prefix
-        )
+        self.env = EnvSettings(_env_file=(".env.example", ".env"))
+        self._app_env_file = f".env.{self.env.mode}"
+        self.app = AppSettings(_env_file=(".env.[mode].example", self._app_env_file))
 
 
 settings = Settings()

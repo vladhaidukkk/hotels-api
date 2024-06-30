@@ -26,6 +26,7 @@ if settings.app.sentry.dsn and settings.app.sentry.enabled:
         dsn=settings.app.sentry.dsn,
         traces_sample_rate=1.0,
         profiles_sample_rate=1.0,
+        environment=settings.env.mode,
     )
 
 

@@ -6,7 +6,7 @@ import logtail
 
 from app.config import settings
 
-logger = logging.getLogger()
+logger = logging.getLogger(settings.env.mode)
 
 
 class ColoredUTCFormatter(colorlog.ColoredFormatter):
