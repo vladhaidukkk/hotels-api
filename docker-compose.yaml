@@ -19,6 +19,6 @@ services:
     depends_on:
       - db
       - redis
-    command: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 80
+    command: ./docker/app.sh
     ports:
       - "8000:80"
