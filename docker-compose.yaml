@@ -14,6 +14,7 @@ services:
 
   app:
     build: .
+    image: hotels-api
     container_name: web-app
     env_file: ".env.docker"
     depends_on:
@@ -24,7 +25,7 @@ services:
       - "8000:80"
 
   celery:
-    build: .
+    image: hotels-api
     container_name: celery
     env_file: ".env.docker"
     environment:
@@ -34,7 +35,7 @@ services:
     command: celery -A app.tasks.worker:worker worker --loglevel=INFO
 
   celery-beat:
-    build: .
+    image: hotels-api
     container_name: celery-beat
     env_file: ".env.docker"
     environment:
@@ -44,7 +45,7 @@ services:
     command: celery -A app.tasks.worker:worker beat --loglevel=INFO
 
   flower:
-    build: .
+    image: hotels-api
     container_name: flower
     env_file: ".env.docker"
     environment:
