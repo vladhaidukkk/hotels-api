@@ -22,3 +22,35 @@ services:
     command: ./docker/app.sh
     ports:
       - "8000:80"
+
+  celery:
+    build: .
+    container_name: celery
+    env_file: ".env.docker"
+    environment:
+      - NULL_POOL=1
+    depends_on:
+      - redis
+    command: celery -A app.tasks.worker:worker worker --loglevel=INFO
+
+  celery-beat:
+    build: .
+    container_name: celery-beat
+    env_file: ".env.docker"
+    environment:
+      - NULL_POOL=1
+    depends_on:
+      - redis
+    command: celery -A app.tasks.worker:worker beat --loglevel=INFO
+
+  flower:
+    build: .
+    container_name: flower
+    env_file: ".env.docker"
+    environment:
+      - NULL_POOL=1
+    depends_on:
+      - redis
+    command: celery -A app.tasks.worker:worker flower
+    ports:
+      - "5555:5555"
