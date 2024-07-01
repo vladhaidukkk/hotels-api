@@ -61,3 +61,9 @@ build-img:
 
 run-ctr:
     docker run -d -p 8000:80 hotels-api
+
+build-compose:
+    docker compose build
+
+run-compose:
+    docker compose up

@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    env_file: ".env.docker"
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis
+    container_name: redis
+
+  app:
+    build: .
+    container_name: web-app
+    env_file: ".env.docker"
+    depends_on:
+      - db
+      - redis
+    command: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 80
+    ports:
+      - "8000:80"
