@@ -18,3 +18,8 @@ Use [MailHog](https://github.com/mailhog/MailHog) to start a local SMTP server a
 
 To ensure that `pydantic-settings` can locate the `.env` file in the root directory during tests run from the IDE, you
 need to specify the path to it in the **Run Configuration**.
+
+## Docker Compose
+
+In the `docker/app.sh` file, you can find two commands that run when executing `docker compose up` to start the web app
+service. In most cases, the migrations fail on the initial run, so don't worry and run them twice.
