@@ -115,7 +115,10 @@ pendulum==3.0.0
     # via fastapi-cache2
 pillow==10.3.0
 prometheus-client==0.20.0
-    # via flower
+    # via
+    #   flower
+    #   prometheus-fastapi-instrumentator
+prometheus-fastapi-instrumentator==7.0.0
 prompt-toolkit==3.0.47
     # via click-repl
 psycopg==3.1.19
@@ -171,6 +174,7 @@ sqlalchemy==2.0.31
 starlette==0.37.2
     # via
     #   fastapi
+    #   prometheus-fastapi-instrumentator
     #   sqladmin
 time-machine==2.14.1
     # via pendulum

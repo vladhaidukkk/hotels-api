@@ -27,6 +27,7 @@ dependencies = [
   "sentry-sdk[fastapi]",
   "colorlog",
   "logtail-python",
+  "prometheus-fastapi-instrumentator",
 ]
 
 [project.optional-dependencies]
