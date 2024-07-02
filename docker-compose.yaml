@@ -5,6 +5,8 @@ services:
     image: postgres
     container_name: postgres
     env_file: ".env.docker"
+    volumes:
+      - db-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -55,3 +57,6 @@ services:
     command: celery -A app.tasks.worker:worker flower
     ports:
       - "5555:5555"
+
+volumes:
+  db-data:
