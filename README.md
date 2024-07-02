@@ -23,3 +23,9 @@ need to specify the path to it in the **Run Configuration**.
 
 In the `docker/app.sh` file, you can find two commands that run when executing `docker compose up` to start the web app
 service. In most cases, the migrations fail on the initial run, so don't worry and run them twice.
+
+## Grafana
+
+To set up a Grafana dashboard, you first need to create a data source for Prometheus. Then, replace the `uid` field in
+the `grafana-dashboard.json` file with the UID of this data source. Finally, create the dashboard using the provided
+JSON file.
