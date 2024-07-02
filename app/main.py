@@ -7,7 +7,6 @@ from fastapi import APIRouter, FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from prometheus_fastapi_instrumentator import Instrumentator
 from redis import asyncio as aioredis
 from sqladmin import Admin
 
@@ -18,6 +17,7 @@ from app.config import settings
 from app.db.core import engine
 from app.hotels.router import router as hotels_router
 from app.logger import logger
+from app.metrics.router import instrumentator, router as metrics_router
 from app.pages.router import router as pages_router
 from app.upload.router import router as upload_router
 from app.users.router import router as users_router
@@ -41,12 +41,6 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 
 
 app = FastAPI(lifespan=lifespan)
-
-instrumentator = Instrumentator(
-    should_group_status_codes=False,
-    excluded_handlers=[".*admin.*", "/metrics"],
-)
-instrumentator.instrument(app).expose(app)
 
 
 @app.middleware("http")
@@ -88,6 +82,9 @@ api_router.include_router(bookings_router)
 app.include_router(api_router)
 app.include_router(pages_router)
 app.include_router(upload_router)
+
+instrumentator.instrument(app).expose(app, tags=["Metrics"])
+app.include_router(metrics_router, tags=["Metrics"])
 
 admin = Admin(app, engine=engine, authentication_backend=auth_backend)
 
