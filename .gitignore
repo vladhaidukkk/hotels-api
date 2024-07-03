@@ -17,5 +17,6 @@ __pycache__/
 .env.dev
 .env.test
 .env.docker
+.env.render
 
 celerybeat-schedule.db

@@ -29,3 +29,17 @@ service. In most cases, the migrations fail on the initial run, so don't worry a
 To set up a Grafana dashboard, you first need to create a data source for Prometheus. Then, replace the `uid` field in
 the `grafana-dashboard.json` file with the UID of this data source. Finally, create the dashboard using the provided
 JSON file.
+
+## Hosting
+
+[Render](https://dashboard.render.com/) is a platform used to host PostgreSQL databases, Redis instances, and web
+services. It provides an easy-to-use, yet limited, solution for small applications. For demonstration purposes, it is an
+ideal option.
+
+The hosted web service for this FastAPI application is available at https://hotels-api-e2zy.onrender.com. Please note
+that this service will only be active for one month from the date of deployment, so it should not be accessible after
+03.08.2024.
+
+### Migrations on Render
+
+To run migrations on the database instance of Render, simply connect to it locally and execute the migrations.
