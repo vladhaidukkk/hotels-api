@@ -60,3 +60,7 @@ A VPS is a more flexible option for hosting your application. To set it up, foll
 8. Run `docker compose build` to build the web app image.
 9. Run `docker compose up` to start all the services.
 10. Add an SSL certificate if you require HTTPS.
+
+### Cloud
+
+The best option on the market is, of course, any cloud platform. It helps manage and scale your infrastructure easily.
