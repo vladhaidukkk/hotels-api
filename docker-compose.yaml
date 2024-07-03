@@ -1,4 +1,14 @@
 services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    links:
+      - app
+    ports:
+      - "80:80"
+
   db:
     image: postgres
     container_name: postgres
@@ -21,8 +31,6 @@ services:
       - db
       - redis
     command: ./docker/app.sh
-    ports:
-      - "8000:8000"
 
   celery:
     image: hotels-api
