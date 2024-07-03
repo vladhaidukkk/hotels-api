@@ -32,6 +32,8 @@ JSON file.
 
 ## Hosting
 
+### Render Platform
+
 [Render](https://dashboard.render.com/) is a platform used to host PostgreSQL databases, Redis instances, and web
 services. It provides an easy-to-use, yet limited, solution for small applications. For demonstration purposes, it is an
 ideal option.
@@ -40,6 +42,21 @@ The hosted web service for this FastAPI application is available at https://hote
 that this service will only be active for one month from the date of deployment, so it should not be accessible after
 03.08.2024.
 
-### Migrations on Render
+#### Migrations on Render
 
 To run migrations on the database instance of Render, simply connect to it locally and execute the migrations.
+
+### Virtual Private Server (VPS)
+
+A VPS is a more flexible option for hosting your application. To set it up, follow these steps:
+
+1. Rent a VPS.
+2. Optionally, purchase a domain.
+3. Connect to the VPS via SSH.
+4. Install Git and Docker on the VPS.
+5. Clone the repository on the VPS.
+6. Create the `.env` and `.env.prod` files on the VPS.
+7. Correct the `nginx.conf` file if necessary.
+8. Run `docker compose build` to build the web app image.
+9. Run `docker compose up` to start all the services.
+10. Add an SSL certificate if you require HTTPS.
